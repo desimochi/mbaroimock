@@ -30,132 +30,159 @@ export async function POST(req) {
     const client = await clientPromise;
     const db = client.db("sample_mflix");
     const results = [];
-    
-
-
-
 
     // Check if a response already exists for this userId and mock
     const existingResponse = await db.collection("response").findOne({ userId, mock });
     const existingResult = await db.collection("results").findOne({ userId, mock });
+
+    // Fetch mock data
     const mockData = await db.collection('mock').findOne({ _id: new ObjectId(mock) });
-    const mockName = mockData.examName
+    if (!mockData) {
+      return new Response(
+        JSON.stringify({ message: "Mock data not found." }),
+        {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+    const mockName = mockData.examName.toLowerCase();
+
+    // Determine collection names and marks based on mockName
     let collection;
-    let options; 
-    let marks; 
+    let options;
+    let marks;
     let negativemarks;
-    if(mockName.toLowerCase().includes("xat")){
-      collection= 'xatquestions';
+    if (mockName.includes("xat")) {
+      collection = 'xatquestions';
       options = 'xatoptions';
-      marks =1;
+      marks = 1;
       negativemarks = 0.25;
-    } else if (mockName.toLowerCase().includes("cat")) {
+    } else if (mockName.includes("cat")) {
       collection = "catquestions";
       options = "catoptions";
-      marks =3;
+      marks = 3;
       negativemarks = 1;
-    } else if (mockName.toLowerCase().includes("cmat")) {
+    } else if (mockName.includes("cmat")) {
       collection = "cmatquestions";
       options = "cmatoptions";
-      marks =4;
+      marks = 4;
       negativemarks = 1;
-    } else if (mockName.toLowerCase().includes("gmat")) {
+    } else if (mockName.includes("gmat")) {
       collection = "gmatquestions";
       options = "gmatoptions";
-      marks =1;
+      marks = 1;
       negativemarks = 0;
+    } else {
+      return new Response(
+        JSON.stringify({ message: "Invalid mock name." }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
 
-    for (const questionIds in answers) {
-      const userAnswer = answers[questionIds];
+    // Get all question IDs from the answers
+    const questionIdsArray = Object.keys(answers).map((id) => new ObjectId(id));
 
-      // Fetch the question details
-      const question = await db.collection( collection).findOne({ _id: new ObjectId(questionIds) });
+    // Fetch all questions in a single query
+    const questionsArray = await db
+      .collection(collection)
+      .find({ _id: { $in: questionIdsArray } })
+      .toArray();
 
-      // Fetch the correct answer from the options collection
-      const correctOption = await db.collection(options).findOne({ questionId: new ObjectId(questionIds) });
+    // Create a map of questions for quick access
+    const questionMap = {};
+    questionsArray.forEach((question) => {
+      questionMap[question._id.toString()] = question;
+    });
 
-      // Build the result for this question
+    // Fetch all correct options in a single query
+    const optionsArray = await db
+      .collection(options)
+      .find({ questionId: { $in: questionIdsArray } })
+      .toArray();
+
+    // Create a map of correct options for quick access
+    const optionMap = {};
+    optionsArray.forEach((option) => {
+      optionMap[option.questionId.toString()] = option;
+    });
+
+    // Process each answer
+    for (const questionIdStr in answers) {
+      const userAnswer = answers[questionIdStr];
+      const questionId = questionIdStr;
+
+      const question = questionMap[questionId];
+      const correctOption = optionMap[questionId];
+
       if (question && correctOption) {
-          if(correctOption.answer === userAnswer){
-            results.push({
-              questionIds,
-              questionText: question.question,
-              subject : question.subject,
-              topics : question.topic, 
-              solution: question.solution,
-              userAnswer,
-              correctAnswer: correctOption.answer,
-              correct : true, 
-              mark : marks// Assuming the `options` collection has a `value` field
-            });
-          } else if (userAnswer===''){
-            results.push({
-              questionIds,
-              questionText: question.question, // Assuming the question collection has a `text` field
-              userAnswer,
-              subject : question.subject,
-              topics : question.topic,
-              solution: question.solution,
-              correctAnswer: correctOption.answer,
-              correct : '',
-              mark: 0 // Assuming the `options` collection has a `value` field
-            });
-          } else if (correctOption.answer !== userAnswer){
-            results.push({
-              questionIds,
-              questionText: question.question, // Assuming the question collection has a `text` field
-              userAnswer,
-              subject : question.subject,
-              solution: question.solution,
-              topics : question.topic,
-              correctAnswer: correctOption.answer,
-              correct : false, 
-              mark : negativemarks // Assuming the `options` collection has a `value` field
-            });
-          }
-       
+        const isCorrect = correctOption.answer === userAnswer;
+        let markAwarded = 0;
+
+        if (userAnswer === '') {
+          // Unanswered question
+          markAwarded = 0;
+        } else if (isCorrect) {
+          // Correct answer
+          markAwarded = marks;
+        } else {
+          // Incorrect answer
+          markAwarded = -negativemarks;
+        }
+
+        results.push({
+          questionId: questionIdStr,
+          questionText: question.question,
+          subject: question.subject,
+          topics: question.topic,
+          solution: question.solution,
+          userAnswer,
+          correctAnswer: correctOption.answer,
+          correct: isCorrect,
+          mark: markAwarded,
+        });
       } else {
         results.push({
-          questionIds,
+          questionId: questionIdStr,
           message: "Question or correct answer not found.",
         });
       }
     }
+
     const resultDoc = {
       userId,
       mock,
       results,
-      submittedAt: new Date()
-    }
-    console.log(results)  
+      submittedAt: new Date(),
+    };
+
+    // Update or insert the results
     if (existingResult) {
       const updateResults = await db.collection("results").updateOne(
-        { userId, mock }, // Match the document based on userId and mockId
+        { userId, mock },
         {
           $set: {
-            results, // Update the results field
-            submittedAt: new Date(), // Update the submittedAt timestamp
+            results,
+            submittedAt: new Date(),
           },
         }
       );
-    
+
       if (updateResults.modifiedCount > 0) {
         console.log("Results updated successfully.");
       } else {
         console.error("Failed to update results. Check the query or document structure.");
       }
-      
-    }
-    else{
+    } else {
       const insertResult = await db.collection("results").insertOne(resultDoc);
       console.log("Result submitted successfully with ID:", insertResult.insertedId);
-
     }
-    
 
+    // Update or insert the response
     if (existingResponse) {
-      // Update the existing document
       const updateResult = await db.collection("response").updateOne(
         { userId, mock },
         { $set: { answers, submittedAt: new Date() } }
@@ -179,11 +206,10 @@ export async function POST(req) {
         );
       }
     } else {
-      // Insert a new document
       const responseDoc = {
         userId,
         mock,
-        answers, // Object containing question IDs as keys and selected options as values
+        answers,
         submittedAt: new Date(),
       };
 
