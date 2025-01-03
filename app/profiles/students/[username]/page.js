@@ -19,7 +19,9 @@ export default async function StudentProfile({ params }) {
   if (!session) {
     redirect("/login");
   }
-
+  if (session.user.name !== username && session.user.role !== "admin") {
+    redirect("/unauthorized");
+  }
   // Check if the user role is "teacher" and the username matches
  
   const student = await db.collection("users").findOne({ name: username });

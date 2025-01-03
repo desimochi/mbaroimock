@@ -2,7 +2,7 @@ import clientPromise from "@/lib/mongodb";
 import { hashPassword } from "@/lib/auth";
 
 export async function POST(req) {
-  const { email, password, name } = await req.json();
+  const { email, password, name, mobile } = await req.json();
   const role ='student';
   const created_at = 'Date.now()'
   const updatedAt = 'Date.now()'
@@ -30,6 +30,7 @@ export async function POST(req) {
     email,
     password: hashedPassword,
     name,
+    mobile,
     role,
     created_at,
     updatedAt

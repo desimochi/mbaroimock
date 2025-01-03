@@ -119,18 +119,20 @@ export async function POST(req) {
       const correctOption = optionMap[questionId];
 
       if (question && correctOption) {
-        const isCorrect = correctOption.answer === userAnswer;
+        let isCorrect = correctOption.answer === userAnswer;
         let markAwarded = 0;
 
         if (userAnswer === '') {
           // Unanswered question
+          isCorrect = ''
           markAwarded = 0;
         } else if (isCorrect) {
-          // Correct answer
+          isCorrect = true
           markAwarded = marks;
         } else {
           // Incorrect answer
-          markAwarded = -negativemarks;
+          isCorrect = false
+          markAwarded = negativemarks;
         }
 
         results.push({

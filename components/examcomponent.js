@@ -4,18 +4,18 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 export default function ExamComponent() {
-  const searchParams = useSearchParams();
-  const mockId = searchParams.get("mock");
+  const searchParams =useSearchParams()
+  const mockId = searchParams.get('mock');
   const [questions, setQuestions] = useState([]);
   const router = useRouter();
   const [mock, setMock] = useState();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [markedForReview, setMarkedForReview] = useState([]);
+  const [issubmittinf, setissubmittinf] = useState(false)
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState(180 * 60); // 1 minute in seconds
   const [isTimerExpired, setIsTimerExpired] = useState(false); // Track if timer has expired
-  const [isSubmitting, setIsSubmitting] = useState(false); // New state for submit button
 
   const loadProgress = () => {
     const savedProgress = JSON.parse(localStorage.getItem("examProgress"));
@@ -75,40 +75,34 @@ export default function ExamComponent() {
   }, []);
 
   const handleSubmit = async () => {
-    if (isSubmitting) return; // Prevent duplicate submissions
-    setIsSubmitting(true); // Set loading state
-    setLoading(true);
-
     if (!mock || questions.length === 0) {
       alert("No questions to submit.");
-      setIsSubmitting(false); // Reset loading state
       return;
     }
-
+  
     // Ensure all questions are included in the answers, even if unanswered
     const finalAnswers = {};
     questions.forEach((question) => {
       finalAnswers[question.questionId] = answers[question.questionId] || ""; // Default to an empty string
     });
-
+  
     try {
       const payload = { mock, answers: finalAnswers };
       console.log("Submitting payload:", payload);
-
+  
       const response = await fetch("/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error response from API:", errorData);
         alert(`Error submitting answers: ${errorData.message || "Unknown error"}`);
-        setIsSubmitting(false); // Reset loading state
         return;
       }
-
+  
       localStorage.removeItem("examProgress");
       setCurrentQuestionIndex(0);
       setAnswers({});
@@ -119,10 +113,9 @@ export default function ExamComponent() {
     } catch (error) {
       console.error("Error submitting answers:", error);
       alert("An unexpected error occurred while submitting answers.");
-    } finally {
-      setIsSubmitting(false); // Reset loading state
     }
   };
+  
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -145,108 +138,96 @@ export default function ExamComponent() {
 
       {/* Questions Section */}
       <div className="flex gap-40 h-full">
-        {/* Question Navigation */}
-        <div className="flex flex-wrap gap-2 mb-4 w-1/4 flex-wrap">
-          {questions.map((_, index) => {
-            let circleColor = "bg-gray-800";
-            if (index === currentQuestionIndex) circleColor = "bg-red-700";
-            else if (answers[questions[index].questionId]) circleColor = "bg-green-500";
-            else if (markedForReview.includes(questions[index].questionId))
-              circleColor = "bg-purple-500";
+      <div className="flex flex-wrap gap-2 mb-4 w-1/4 flex-wrap">
+  {questions.map((_, index) => {
+    let circleColor = "bg-gray-800";
+    if (index === currentQuestionIndex) circleColor = "bg-red-700";
+    else if (answers[questions[index].questionId]) circleColor = "bg-green-500";
+    else if (markedForReview.includes(questions[index].questionId)) circleColor = "bg-purple-500";
 
-            return (
-              <div
-                key={index}
-                className={`w-12 h-12 rounded-full flex items-center text-white justify-center ${circleColor} cursor-pointer`}
-                onClick={() => setCurrentQuestionIndex(index)}
-                style={{ flex: "0 0 calc(20% - 0.4rem)" }} // Ensures 5 circles fit in one row
-              >
-                {index + 1}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Current Question */}
+    return (
+      <div
+        key={index}
+        className={`w-12 h-12 rounded-full flex items-center text-white justify-center ${circleColor} cursor-pointer`}
+        onClick={() => setCurrentQuestionIndex(index)}
+        style={{ flex: "0 0 calc(20% - 0.4rem)" }} // Ensures 5 circles fit in one row
+      >
+        {index + 1}
+      </div>
+    );
+  })}
+</div>
         <div className="w-3/4">
-          <div className="border-2 p-12 rounded">
-            {currentQuestion && (
-              <div className="mb-4">
-                <h2 className="text-lg mb-2">
-                  {currentQuestionIndex + 1}. {currentQuestion.questionText}
-                </h2>
-                <div>
-                  {Object.entries(currentQuestion.options).map(([key, value]) => (
-                    <div key={key} className="mb-2">
-                      <label>
-                        <input
-                          type="radio"
-                          name={`question-${currentQuestion.questionId}`}
-                          value={key}
-                          checked={answers[currentQuestion.questionId] === key}
-                          onChange={() =>
-                            setAnswers({ ...answers, [currentQuestion.questionId]: key })
-                          }
-                          disabled={isTimerExpired} // Disable if timer expired
-                        />
-                        <span className="ml-2">{value}</span>
-                      </label>
-                    </div>
-                  ))}
-                </div>
+        <div className="border-2 p-12 rounded">
+          {currentQuestion && (
+            <div className="mb-4">
+              <h2 className="text-lg mb-2">
+                {currentQuestionIndex + 1}. {currentQuestion.questionText}
+              </h2>
+              <div>
+                {Object.entries(currentQuestion.options).map(([key, value]) => (
+                  <div key={key} className="mb-2">
+                    <label>
+                      <input
+                        type="radio"
+                        name={`question-${currentQuestion.questionId}`}
+                        value={key}
+                        checked={answers[currentQuestion.questionId] === key}
+                        onChange={() =>
+                          setAnswers({ ...answers, [currentQuestion.questionId]: key })
+                        }
+                        disabled={isTimerExpired} // Disable if timer expired
+                      />
+                      <span className="ml-2">{value}</span>
+                    </label>
+                  </div>
+                ))}
               </div>
-            )}
-
-            <div className="flex justify-between items-center">
-              <button
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-                onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
-                disabled={currentQuestionIndex === 0 || isTimerExpired} // Disable if timer expired
-              >
-                Previous Question
-              </button>
-              <button
-                className={`px-4 py-2 ${
-                  markedForReview.includes(currentQuestion?.questionId)
-                    ? "bg-purple-500"
-                    : "bg-yellow-500"
-                } text-white rounded`}
-                onClick={() =>
-                  setMarkedForReview((prevMarkedForReview) =>
-                    prevMarkedForReview.includes(currentQuestion.questionId)
-                      ? prevMarkedForReview.filter((id) => id !== currentQuestion.questionId)
-                      : [...prevMarkedForReview, currentQuestion.questionId]
-                  )
-                }
-                disabled={isTimerExpired} // Disable if timer expired
-              >
-                {markedForReview.includes(currentQuestion?.questionId)
-                  ? "Unmark for Review"
-                  : "Mark for Review"}
-              </button>
-              {currentQuestionIndex === questions.length - 1 ? (
-                <button
-                  className="px-4 py-2 bg-red-800 text-white rounded flex items-center justify-center"
-                  onClick={handleSubmit}
-                  disabled={isSubmitting || isTimerExpired} // Disable during submission
-                >
-                  {isSubmitting ? (
-                    <span className="loader"></span> // Placeholder for a loader animation
-                  ) : (
-                    "Submit Exam"
-                  )}
-                </button>
-              ) : (
-                <button
-                  className="px-4 py-2 bg-blue-800 text-white rounded"
-                  onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
-                  disabled={isTimerExpired} // Disable if timer expired
-                >
-                  Next Question
-                </button>
-              )}
             </div>
+          )}
+
+          <div className="flex justify-between items-center">
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+              onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
+              disabled={currentQuestionIndex === 0 || isTimerExpired} // Disable if timer expired
+            >
+              Previous Question
+            </button>
+            <button
+              className={`px-4 py-2 ${
+                markedForReview.includes(currentQuestion?.questionId)
+                  ? "bg-purple-500"
+                  : "bg-yellow-500"
+              } text-white rounded`}
+              onClick={() =>
+                setMarkedForReview((prevMarkedForReview) =>
+                  prevMarkedForReview.includes(currentQuestion.questionId)
+                    ? prevMarkedForReview.filter((id) => id !== currentQuestion.questionId)
+                    : [...prevMarkedForReview, currentQuestion.questionId]
+                )
+              }
+              disabled={isTimerExpired} // Disable if timer expired
+            >
+              {markedForReview.includes(currentQuestion?.questionId)
+                ? "Unmark for Review"
+                : "Mark for Review"}
+            </button>
+            {currentQuestionIndex === questions.length - 1 ? <button
+              className="px-4 py-2 bg-red-800 text-white rounded"
+              onClick={handleSubmit}
+    // Disable if timer expired
+            >
+              Submit Exam
+            </button> : <button
+              className="px-4 py-2 bg-blue-800 text-white rounded"
+              onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
+            // Disable if timer expired
+            >
+              Next Question
+            </button>}
           </div>
+        </div>
         </div>
       </div>
 
@@ -259,9 +240,8 @@ export default function ExamComponent() {
             <button
               className="px-6 py-3 bg-green-500 text-white text-lg rounded"
               onClick={handleSubmit}
-              disabled={isSubmitting} // Disable during submission
             >
-              {isSubmitting ? <span className="loader"></span> : "Submit Answers"}
+              Submit Answers
             </button>
           </div>
         </div>
