@@ -74,6 +74,7 @@ export default function ExamComponent() {
   }, []);
 
   const handleSubmit = async () => {
+    setLoading(true)
     if (!mock || questions.length === 0) {
       alert("No questions to submit.");
       return;
@@ -106,6 +107,7 @@ export default function ExamComponent() {
       setCurrentQuestionIndex(0);
       setAnswers({});
       setMarkedForReview([]);
+      setLoading(false)
       setTimeLeft(180 * 60); // Reset timer after submission
       alert("Answers submitted successfully!");
       router.push("/");
@@ -240,7 +242,7 @@ export default function ExamComponent() {
               className="px-6 py-3 bg-green-500 text-white text-lg rounded"
               onClick={handleSubmit}
             >
-              Submit Answers
+              {loading?'submitting answer':'submit answer'}
             </button>
           </div>
         </div>
