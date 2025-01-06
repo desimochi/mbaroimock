@@ -1,7 +1,10 @@
-import { signOut } from "next-auth/react";
+"use client"
+import { useSession,signOut } from "next-auth/react";
+
 import Image from "next/image";
 import Link from "next/link";
 export default function TextImageSection() {
+  const { data: session } = useSession();
     return (
         <>
           <div className="bg-white min-h-fit">
@@ -16,9 +19,11 @@ export default function TextImageSection() {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row justify-center gap-6 mt-8 p-4">
-          <Link href='/register'><button className="bg-red-700 text-white px-6 py-3 w-full rounded-full text-lg">
+          {!session? <Link href='/register'><button className="bg-red-700 text-white px-6 py-3 w-full rounded-full text-lg">
             Register Yourself
-          </button></Link>
+          </button></Link> : <Link href={`/profiles/students/${session.user.id}`}><button className="bg-red-700 text-white px-6 py-3 w-full rounded-full text-lg">
+            See Profile
+          </button></Link> }
           <Link href='/mocks'><button className="border-2 border-red-700 w-full hover:bg-red-700 hover:text-white px-6 py-3 rounded-full text-lg">
             Explore Mocks
           </button></Link>
@@ -75,7 +80,7 @@ export default function TextImageSection() {
             {[
               { level: 'A1', label: 'Latest Mocks' },
               { level: 'A2', label: 'Updated Syllabus' },
-              { level: 'B1', label: 'Soltions' },
+              { level: 'B1', label: 'Solutions' },
               { level: 'B2', label: 'Analysis' },
               { level: 'C1', label: 'Weekly Mocks' },
               { level: 'C2', label: 'Performace Review', isActive: true },
@@ -107,7 +112,7 @@ export default function TextImageSection() {
           <div className="w-full sm:w-1/4 p-4">
           <div className="w-full bg-yellow-100 p-6 rounded-lg">
             <h3 className="text-gray-600 text-lg font-medium">
-              Give Moack and Analysis of Your Performace
+              Give Mock and Analysis of Your Performace
             </h3>
             <p className="mt-2 text-4xl font-bold">342</p>
             <p className="text-sm text-gray-500">Makrs Scored in the Last Attempt Mock</p>

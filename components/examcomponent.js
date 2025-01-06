@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import CMATInstructions from "./ExamIns";
 
 export default function ExamComponent() {
   const searchParams =useSearchParams()
@@ -12,18 +13,21 @@ export default function ExamComponent() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [markedForReview, setMarkedForReview] = useState([]);
-  const [issubmittinf, setissubmittinf] = useState(false)
+  const [instructions, setinstructions] = useState(true)
   const [loading, setLoading] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(180 * 60); // 1 minute in seconds
+  const [timeLeft, setTimeLeft] = useState(1 * 60); // 1 minute in seconds
   const [isTimerExpired, setIsTimerExpired] = useState(false); // Track if timer has expired
 
+  const handleins =() =>{
+    setinstructions(false)
+  }
   const loadProgress = () => {
     const savedProgress = JSON.parse(localStorage.getItem("examProgress"));
     if (savedProgress) {
       setAnswers(savedProgress.answers || {});
       setMarkedForReview(savedProgress.markedForReview || []);
       setCurrentQuestionIndex(savedProgress.currentQuestionIndex || 0);
-      setTimeLeft(savedProgress.timeLeft || 180 * 60);
+      setTimeLeft(savedProgress.timeLeft || 1 * 60);
       return true;
     }
     return false;
@@ -47,7 +51,7 @@ export default function ExamComponent() {
           setCurrentQuestionIndex(0);
           setAnswers({});
           setMarkedForReview([]);
-          setTimeLeft(180 * 60); // Reset timer to initial value
+          setTimeLeft(1 * 60); // Reset timer to initial value
         }
 
         setLoading(false);
@@ -60,19 +64,23 @@ export default function ExamComponent() {
   }, [mockId]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          setIsTimerExpired(true); // Set timer expired flag
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer); // Cleanup timer on unmount
-  }, []);
+    let timer;
+  
+    if (!instructions) {
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(timer);
+            setIsTimerExpired(true); // Set timer expired flag
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+    }
+  
+    return () => clearInterval(timer); // Cleanup timer on unmount or when `instructions` changes
+  }, [instructions]);
 
   const handleSubmit = async () => {
     if (!mock || questions.length === 0) {
@@ -107,7 +115,7 @@ export default function ExamComponent() {
       setCurrentQuestionIndex(0);
       setAnswers({});
       setMarkedForReview([]);
-      setTimeLeft(180 * 60); // Reset timer after submission
+      setTimeLeft(1 * 60); // Reset timer after submission
       alert("Answers submitted successfully!");
       router.push("/");
     } catch (error) {
@@ -122,7 +130,10 @@ export default function ExamComponent() {
     const secs = seconds % 60;
     return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   };
-
+  if(instructions){
+      return <CMATInstructions handleins={handleins}/>
+  }
+  
   if (loading) return <div className="flex items-center justify-center min-h-screen">
   <div aria-label="Loading Questions..." role="status" className="flex items-center space-x-2">
     <svg className="h-20 w-20 animate-spin stroke-gray-500" viewBox="0 0 256 256">
@@ -139,15 +150,36 @@ export default function ExamComponent() {
   </div>
 </div>
 
+
+
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <div className="container mx-auto p-4">
       {/* Timer */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
         <div className="text-lg font-semibold text-red-600">
           Time Left: {formatTime(timeLeft)}
         </div>
+        
+        <div className="flex flex-wrap justify-between">
+        <span className="flex items-center mx-4">
+  <div className="w-3 h-3 rounded-full bg-red-700"></div>
+  <p className="ml-2">Active</p>
+</span>  
+        <span className="flex items-center mx-4">
+  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+  <p className="ml-2">Answered</p>
+</span>
+<span className="flex items-center mx-4">
+  <div className="w-3 h-3 rounded-full bg-purple-400"></div>
+  <p className="ml-2">Mark for Review</p>
+</span>
+<span className="flex items-center mx-4">
+  <div className="w-3 h-3 rounded-full bg-gray-800"></div>
+  <p className="ml-2">Unanswered</p>
+</span>   
+        </div> 
       </div>
 
       {/* Questions Section */}
@@ -194,7 +226,7 @@ export default function ExamComponent() {
               className={`px-4 py-2 ${
                 markedForReview.includes(currentQuestion?.questionId)
                   ? "bg-purple-500"
-                  : "bg-yellow-500"
+                  : "bg-red-500"
               } text-white rounded`}
               onClick={() =>
                 setMarkedForReview((prevMarkedForReview) =>
@@ -224,7 +256,10 @@ export default function ExamComponent() {
             </button>}
           </div>
         </div>
-        </div><div className="flex flex-wrap gap-2 mb-4 w-full sm:w-4/12 flex-wrap border p-8 bg-gray-200 rounded-xl">
+        </div>
+       
+        <div className="flex flex-wrap gap-2 mb-4 w-full sm:w-4/12 flex-wrap border p-8 bg-gray-100 rounded-xl">
+        
   {questions.map((_, index) => {
     let circleColor = "bg-gray-800";
     if (index === currentQuestionIndex) circleColor = "bg-red-700";

@@ -108,7 +108,7 @@ export default async function StudentProfile({ params }) {
                 <span className="text-sm text-black dark:text-gray-400">Exam Given - {response.length}</span>
                 <div className="flex mt-4 md:mt-6 gap-4">
                   <LogoutButton />
-                  <Link href="/mba-mocks-exam">
+                  <Link href="/mocks">
                     <button className="text-white bg-gray-900 hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                       Give Mock
                     </button>
@@ -121,7 +121,7 @@ export default async function StudentProfile({ params }) {
             {mocks.length > 0 ? (
               <ul className="list-disc ml-6">
                 {mocks.map((mock) => (
-                  <div className="w-full mx-auto bg-white shadow-lg rounded-lg mb-2" key={mock._id}>
+                  <div className="w-full mx-auto bg-white border shadow-lg rounded-lg mb-2" key={mock._id}>
                     <div className="px-6 py-5">
                       <div className="flex items-start">
                         <div className="flex-grow truncate">

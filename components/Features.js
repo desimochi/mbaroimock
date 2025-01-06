@@ -12,9 +12,7 @@ export default function Features() {
             Detailed and Updated Mocks
           </h3>
           <p className="text-gray-600 mb-4">
-            Start recording with a simple voice command. No need to fumble for
-            your phone - perfect for lectures, meetings, or brainstorming
-            sessions.
+          Our mocks are meticulously designed and regularly updated to align with the latest exam patterns, ensuring students are well-prepared for real-time challenges.
           </p>
           <div className="relative w-full flex justify-center">
             <Image
@@ -29,12 +27,10 @@ export default function Features() {
         {/* Card 2 */}
         <div className="bg-white border p-8 border-gray-300 rounded-xl shadow-md mb-8 md:mb-6 w-full sm:w-5/12">
           <h3 className="text-xl font-bold mb-2 text-gray-800">
-            Stundents from Everywhere
+            Students from Everywhere
           </h3>
           <p className="text-gray-600 mb-4">
-            Start recording with a simple voice command. No need to fumble for
-            your phone - perfect for lectures, meetings, or brainstorming
-            sessions.
+          Accessible to students globally, our platform provides a seamless experience, connecting learners from diverse regions to a unified, high-quality mock test environment.
           </p>
           <div className="relative w-full flex justify-center">
             <Image
@@ -49,12 +45,10 @@ export default function Features() {
         <div className="flex flex-col md:flex-row md:justify-between gap-6 p-2">
         <div className="bg-white border p-8 border-gray-300 rounded-xl shadow-md mb-8 md:mb-6 w-full sm:w-5/12">
           <h3 className="text-xl font-bold mb-2 text-gray-800">
-            Organised Mocks and Results
+          Organized Mocks and Results
           </h3>
           <p className="text-gray-600 mb-4">
-            Start recording with a simple voice command. No need to fumble for
-            your phone - perfect for lectures, meetings, or brainstorming
-            sessions.
+          Enjoy structured mock tests with clear timelines and swift, precise results, ensuring an efficient and hassle-free preparation process.
           </p>
           <div className="relative w-full flex justify-center">
             <Image
@@ -70,9 +64,7 @@ export default function Features() {
             Detailed Analysis of Performance
           </h3>
           <p className="text-gray-600 mb-4">
-            Start recording with a simple voice command. No need to fumble for
-            your phone - perfect for lectures, meetings, or brainstorming
-            sessions.
+          Gain valuable insights with a comprehensive performance analysis, highlighting your strengths and areas for improvement to enhance your preparation strategy.
           </p>
           <div className="relative w-full flex justify-center">
             <Image

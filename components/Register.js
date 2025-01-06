@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { useSession } from "next-auth/react";
 export default function Register() {
+ 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,7 +14,10 @@ export default function Register() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
-
+  const { data: session } = useSession();
+  if(session){
+    router.push("/");
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
