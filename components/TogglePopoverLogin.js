@@ -12,9 +12,9 @@ export default function TogglePopoverLogin({user}){
       setIsPopoverVisible((prev) => !prev);
     };
     if(user.user?.role==='teacher'){
-      urll = `/profiles/teachers/${user.user?.name}`
+      urll = `/profiles/teachers/${user.user?.id}`
     } else {
-      urll = `/profiles/students/${user.user?.name}`
+      urll = `/profiles/students/${user.user?.id}`
     }
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -41,7 +41,7 @@ export default function TogglePopoverLogin({user}){
         onClick={togglePopover}
         ref={buttonRef}
         type="button"
-        className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="px-6 py-2 border-2 border-red-800 rounded-full text-red-800 hover:bg-red-800 hover:text-white transition duration-300"
       >
         {user.user?.name}
       </button>

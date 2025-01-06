@@ -38,3 +38,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+git filter-repo --path <path-to-large-file> --invert-paths
+
+
+# Ignore a specific file
+/public/Reel-2.mp4
+
+# Ignore all .mp4 files
+*.mp4

@@ -37,10 +37,10 @@ export default function ExamResultComponent() {
       <hr class="border-t-2 border-red-800" />
       {/* Donut Chart */}
         <div className="flex gap-3">
-            <div className="w-5/12">
+            <div className="w-full sm:w-5/12">
             <OverView data={result} />
             </div>
-            <div className="w-7/12">
+            <div className="w-full sm:w-7/12">
             <TopicWise data={result}/>
             </div>
             

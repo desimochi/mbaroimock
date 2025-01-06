@@ -6,35 +6,11 @@ export default function Footer() {
           {/* Logo or Brand Name */}
           <div className="mb-4 md:mb-0">
             <a href="#" className="text-lg font-bold text-white hover:text-gray-300">
-              YourBrand
+              MBAROIMOCK
             </a>
           </div>
   
-          {/* Navigation Links */}
-          <div className="mb-4 md:mb-0">
-            <ul className="flex space-x-6">
-              <li>
-                <a href="#" className="hover:text-gray-300">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gray-300">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gray-300">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-gray-300">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
+       
   
           {/* Social Media Links */}
           <div className="flex space-x-4">
@@ -83,7 +59,7 @@ export default function Footer() {
           </div>
         </div>
   
-        <div className="mt-6 text-center text-sm text-gray-400">
+        <div className="mt-6 text-center text-sm text-gray-200">
           &copy; 2024 YourBrand. All rights reserved.
         </div>
       </footer>

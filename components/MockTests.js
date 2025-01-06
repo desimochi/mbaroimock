@@ -29,7 +29,21 @@ export default function MockTests() {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div aria-label="Loading Questions..." role="status" className="container flex items-center justify-center mx-auto mt-24 sm:mt-32 mb-24  border text-white rounded-lg p-8 md:p-12 shadow-lg">
+        <svg className="h-20 w-20 animate-spin stroke-red-800" viewBox="0 0 256 256">
+          <line x1="128" y1="32" x2="128" y2="64" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+          <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+          <line x1="224" y1="128" x2="192" y2="128" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+          <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+          <line x1="128" y1="224" x2="128" y2="192" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+          <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+          <line x1="32" y1="128" x2="64" y2="128" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+          <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+        </svg>
+        <span className="text-3xl font-medium text-black">Loading Mocks...</span>
+      </div>
+    );
   }
 
   if (error) {
@@ -41,21 +55,33 @@ export default function MockTests() {
   }
 
   return (
-    <div className="container flex flex-wrap gap-6 items-center justify-center bg-black text-white rounded-lg p-8 md:p-12 shadow-lg lg:mt-24">
+    <>
+   
+    <div className="container mx-auto mt-24 sm:mt-32 mb-24  border text-white rounded-lg p-8 md:p-12 shadow-lg ">
+      <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal leading-tight">Available Mocks to Attempt</h2>
+      <hr class="border-red-700 w-1/2 mx-auto mb-12 border-t-2" />
+      <div className="flex flex-wrap gap-6 items-center justify-center">
       {mocks.map((mock) => (
         <div
           key={mock._id}
-          className="w-full sm:w-1/4 p-4 backdrop-blur-[23px] backdrop-saturate-[127%] bg-[rgba(48,46,46,0.71)] rounded-[12px] border border-[rgba(209,213,219,0.3)] overflow-hidden"
+          className="w-full sm:w-1/4 p-4 border border-gray-400 rounded-[12px] text-black overflow-hidden"
         >
-          <h5 className="text-lg font-semibold text-white">{mock.examName}</h5>
+          <h5 className="text-lg font-semibold text-center">{mock.examName}</h5>
           <div className="border-t border-dotted border-gray-400 my-3"></div>
           <p className="text-sm text-gray-300 break-words">{mock.description}</p>
-          <p className="text-sm text-gray-300 break-words mt-2">
+          <div className="flex justify-between">
+          <p className="text-sm text-gray-800 break-words mt-2">
             <strong>Questions:</strong> {mock.limit} 
           </p>
-          <Link href ={`\exam?mock=${mock._id}`}><button className="w-full bg-red-600 mt-4 p-2 rounded">Start Exam</button></Link>
+          <p className="text-sm text-gray-800 break-words mt-2">
+            <strong>Duration:</strong> 180 Minutes
+          </p>
+          </div>
+          <Link href ={`\exam?mock=${mock._id}`}><button className="w-full bg-red-700 mt-4 p-2 rounded-full text-white">Start Exam</button></Link>
         </div>
       ))}
+      </div>
     </div>
+    </>
   );
 }

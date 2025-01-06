@@ -123,7 +123,21 @@ export default function ExamComponent() {
     return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   };
 
-  if (loading) return <div>Loading questions...</div>;
+  if (loading) return <div className="flex items-center justify-center min-h-screen">
+  <div aria-label="Loading Questions..." role="status" className="flex items-center space-x-2">
+    <svg className="h-20 w-20 animate-spin stroke-gray-500" viewBox="0 0 256 256">
+      <line x1="128" y1="32" x2="128" y2="64" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+      <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+      <line x1="224" y1="128" x2="192" y2="128" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+      <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+      <line x1="128" y1="224" x2="128" y2="192" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+      <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+      <line x1="32" y1="128" x2="64" y2="128" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+      <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
+    </svg>
+    <span className="text-3xl font-medium text-black">Loading Questions...</span>
+  </div>
+</div>
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -137,28 +151,10 @@ export default function ExamComponent() {
       </div>
 
       {/* Questions Section */}
-      <div className="flex gap-40 h-full">
-      <div className="flex flex-wrap gap-2 mb-4 w-1/4 flex-wrap">
-  {questions.map((_, index) => {
-    let circleColor = "bg-gray-800";
-    if (index === currentQuestionIndex) circleColor = "bg-red-700";
-    else if (answers[questions[index].questionId]) circleColor = "bg-green-500";
-    else if (markedForReview.includes(questions[index].questionId)) circleColor = "bg-purple-500";
-
-    return (
-      <div
-        key={index}
-        className={`w-12 h-12 rounded-full flex items-center text-white justify-center ${circleColor} cursor-pointer`}
-        onClick={() => setCurrentQuestionIndex(index)}
-        style={{ flex: "0 0 calc(20% - 0.4rem)" }} // Ensures 5 circles fit in one row
-      >
-        {index + 1}
-      </div>
-    );
-  })}
-</div>
-        <div className="w-3/4">
-        <div className="border-2 p-12 rounded">
+      <div className="flex flex-col sm:flex-row gap-8 h-full">
+      
+        <div className="w-full sm:w-8/12">
+        <div className="border-2 pt-8 pb-8 px-6 rounded">
           {currentQuestion && (
             <div className="mb-4">
               <h2 className="text-lg mb-2">
@@ -186,13 +182,13 @@ export default function ExamComponent() {
             </div>
           )}
 
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between gap-2">
             <button
               className="px-4 py-2 bg-blue-500 text-white rounded"
               onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
               disabled={currentQuestionIndex === 0 || isTimerExpired} // Disable if timer expired
             >
-              Previous Question
+              Previous
             </button>
             <button
               className={`px-4 py-2 ${
@@ -224,11 +220,29 @@ export default function ExamComponent() {
               onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
             // Disable if timer expired
             >
-              Next Question
+              Next 
             </button>}
           </div>
         </div>
-        </div>
+        </div><div className="flex flex-wrap gap-2 mb-4 w-full sm:w-4/12 flex-wrap border p-8 bg-gray-200 rounded-xl">
+  {questions.map((_, index) => {
+    let circleColor = "bg-gray-800";
+    if (index === currentQuestionIndex) circleColor = "bg-red-700";
+    else if (answers[questions[index].questionId]) circleColor = "bg-green-500";
+    else if (markedForReview.includes(questions[index].questionId)) circleColor = "bg-purple-500";
+
+    return (
+      <div
+        key={index}
+        className={`w-8 h-10 rounded-full flex items-center text-white justify-center ${circleColor} cursor-pointer`}
+        onClick={() => setCurrentQuestionIndex(index)}
+        style={{ flex: "0 0 calc(12% - 0.4rem)" }} // Ensures 5 circles fit in one row
+      >
+        {index + 1}
+      </div>
+    );
+  })}
+</div>
       </div>
 
       {/* Popup for Timer Expiry */}

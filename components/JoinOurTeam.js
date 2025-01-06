@@ -3,46 +3,47 @@ import Image from "next/image";
 import Link from "next/link";
 export default function JoinOurTeam() {
     return (
-      <div className="container flex flex-col md:flex-row items-center justify-center bg-gradient-to-r from-gray-800 mt-96 via-red-800 to-gray-800 text-white rounded-lg p-8 md:p-12 shadow-lg lg:mt-24">
-        {/* Image Section */}
-        <div className="w-full md:w-1/2">
-        <Image src="/why-mba-roi-mock-are-best.png" height={350} width={680}  alt="mbaroi mock" />
-        </div>
-  
-        {/* Content Section */}
-        <div className="w-full md:w-1/2 mt-6 md:mt-0 md:ml-8 text-center md:text-left">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Why MBAROI Mock Are Best?</h2>
-          <p className="text-gray-300 mb-6">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-            magnam voluptatum cupiditate veritatis in accusamus quisquam.
-          </p>
-          <ul className="space-y-2 text-gray-100">
-            <li className="flex items-center">
-              <span className="text-yellow-400 mr-2">✔</span> Competitive salaries
-            </li>
-            <li className="flex items-center">
-              <span className="text-yellow-400 mr-2">✔</span> 30 days of paid vacation
-            </li>
-            <li className="flex items-center">
-              <span className="text-yellow-400 mr-2">✔</span> Benefits for you and your family
-            </li>
-            <li className="flex items-center">
-              <span className="text-yellow-400 mr-2">✔</span> Flexible work hours
-            </li>
-            <li className="flex items-center">
-              <span className="text-yellow-400 mr-2">✔</span> Annual team retreats
-            </li>
-            <li className="flex items-center">
-              <span className="text-yellow-400 mr-2">✔</span> A great work environment
-            </li>
-          </ul>
-          <Link href='/register'
-            className="inline-block mt-6 text-yellow-400 hover:underline"
+      <section>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div
+          className="relative overflow-hidden rounded-2xl text-center shadow-xl before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-2xl before:bg-gray-900"
+          data-aos="zoom-y-out"
+        >
+          {/* Glow */}
+          <div
+            className="absolute bottom-0 left-1/2 -z-10 -translate-x-1/2 translate-y-1/2"
+            aria-hidden="true"
           >
-            Register Yourself Now
-          </Link>
+            <div className="h-56 w-[480px] rounded-full border-[20px] border-blue-500 blur-3xl" />
+          </div>
+          {/* Stripes illustration */}
+          <div
+            className="pointer-events-none absolute left-1/2 top-0 -z-10 -translate-x-1/2 transform"
+            aria-hidden="true"
+          >
+           
+          </div>
+          <div className="px-4 py-12 md:px-12 md:py-20">
+            <h2 className="mb-6 border-y text-3xl font-bold text-gray-200 [border-image:linear-gradient(to_right,transparent,theme(colors.slate.700/.7),transparent)1] md:mb-12 md:text-4xl">
+              Create your next project with Simple
+            </h2>
+            <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center">
+              <a
+                className="btn group mb-4 w-full bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
+                href="#0"
+              >
+                <span className="relative inline-flex items-center">
+                  Start Free Trial{" "}
+                  <span className="ml-1 tracking-normal text-blue-300 transition-transform group-hover:translate-x-0.5">
+                    -&gt;
+                  </span>
+                </span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
     );
   }
   
