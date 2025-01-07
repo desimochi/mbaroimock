@@ -34,10 +34,10 @@ export default function OverView({ data }) {
     <div
       className="mt-5 mb-6 p-6 border rounded items-center bg-gray-100"
     >
-      <h2 className="text-xl mt-2 bg-gray-800 py-2 text-white rounded font-semibold text-center">
+      <h2 className="text-xl mt-2 bg-red-800 py-2 text-white rounded-full font-semibold text-center">
         Performance Overview
       </h2>
-      <div className="flex mt-4 gap-3">
+      <div className="flex flex-col sm:flex-row mt-4 gap-3">
       <div style={{ height: 300, width: 300 }}>
       <Doughnut
         data={chartData}
@@ -46,7 +46,7 @@ export default function OverView({ data }) {
         className="text-center"
       />
       </div>
-      <div class="w-full mx-auto p-4 bg-white border border-gray-200 rounded-lg shadow">
+      <div class="w-full mx-auto p-4 bg-white border border-gray-200 rounded shadow">
   <table class="w-full text-left border-collapse">
     <thead>
       <tr class="border-b border-gray-200">
@@ -88,14 +88,14 @@ export default function OverView({ data }) {
 </div>
 </div>
       <div className="flex justify-between px-8 items-center mt-5 p-3 gap-4">
-        <div className="p-4 text-center bg-gray-800 rounded w-1/2">
+        <div className="p-4 text-center bg-gray-800 rounded-full w-full">
               <p className="text-white text-4xl font-bold">{sucessrate}%</p>
               <p className="text-white">Success Rate</p>
         </div>
-        <div className="p-4 text-center bg-gray-800 rounded w-1/2">
+        {/* <div className="p-4 text-center bg-gray-800 rounded w-1/2">
               <p className="text-white text-4xl font-bold">2nd</p>
               <p className="text-white">Rank in Leadeboard</p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

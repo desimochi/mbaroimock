@@ -97,8 +97,8 @@ export default async function StudentProfile({ params }) {
     return (
       <>
       <div className="container mx-auto h-screen">
-        <div className="flex justify-between items-center py-4 px-8 shadow-sm gap-4">
-          <div className="bg-red-900 rounded mb-8 w-1/4">
+        <div className="flex flex-col sm:flex-row justify-between items-center py-4 px-8 shadow-sm gap-4">
+          <div className="bg-red-900 rounded mb-8 w-full sm:w-1/4">
             <div className="w-full bg-white border border-gray-200 rounded shadow dark:bg-gray-800 dark:border-gray-700">
               <div className="flex justify-end px-2 pt-8"></div>
               <div className="flex flex-col items-center pb-10">
@@ -107,28 +107,35 @@ export default async function StudentProfile({ params }) {
                 <span className="text-sm text-gray-500 dark:text-gray-400">{student.email}</span>
                 <span className="text-sm text-black dark:text-gray-400">Exam Given - {response.length}</span>
                 <div className="flex mt-4 md:mt-6 gap-4">
-                  <LogoutButton />
+                  <Link href='/update-profile'>
+                <button className="text-gray-900 bg-white border border-gray-800 hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Update Profile</button>
+              </Link>
                   <Link href="/mocks">
-                    <button className="text-white bg-gray-900 hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button className="text-white bg-gray-900 hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-8 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                       Give Mock
                     </button>
                   </Link>
                 </div>
+                <LogoutButton />
+              
               </div>
             </div>
+           
           </div>
-          <div className="rounded mb-8 w-3/4">
+
+          <div className="rounded mb-8 w-full sm:w-3/4">
             {mocks.length > 0 ? (
               <ul className="list-disc ml-6">
                 {mocks.map((mock) => (
-                  <div className="w-full mx-auto bg-white border shadow-lg rounded-lg mb-2" key={mock._id}>
-                    <div className="px-6 py-5">
+                  <div className="w-full sm:mx-auto bg-white border shadow-lg rounded-lg mb-2" key={mock._id}>
+                    <div className="px-6 sm:px-6 py-5">
                       <div className="flex items-start">
                         <div className="flex-grow truncate">
                           <div className="w-full sm:flex justify-between items-center mb-1">
                             <h2 className="text-xl leading-snug font-bold text-black truncate mb-1 sm:mb-0">{mock.examName}</h2>
                             <Link href={`/exam-results?exam=${mock._id}`}>
-                              <button className="bg-red-800 hover:bg-red-700 text-white px-4 py-2 rounded">See Result</button>
+                              <button className="bg-red-800 hover:bg-red-700 rounded-full text-white px-4 py-2 rounded">See Result</button>
                             </Link>
                           </div>
                         </div>

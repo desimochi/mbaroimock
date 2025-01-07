@@ -15,7 +15,7 @@ export default function ExamComponent() {
   const [markedForReview, setMarkedForReview] = useState([]);
   const [instructions, setinstructions] = useState(true)
   const [loading, setLoading] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(1 * 60); // 1 minute in seconds
+  const [timeLeft, setTimeLeft] = useState(180 * 60); // 1 minute in seconds
   const [isTimerExpired, setIsTimerExpired] = useState(false); // Track if timer has expired
 
   const handleins =() =>{
@@ -27,7 +27,7 @@ export default function ExamComponent() {
       setAnswers(savedProgress.answers || {});
       setMarkedForReview(savedProgress.markedForReview || []);
       setCurrentQuestionIndex(savedProgress.currentQuestionIndex || 0);
-      setTimeLeft(savedProgress.timeLeft || 1 * 60);
+      setTimeLeft(savedProgress.timeLeft || 180 * 60);
       return true;
     }
     return false;
@@ -51,7 +51,7 @@ export default function ExamComponent() {
           setCurrentQuestionIndex(0);
           setAnswers({});
           setMarkedForReview([]);
-          setTimeLeft(1 * 60); // Reset timer to initial value
+          setTimeLeft(180 * 60); // Reset timer to initial value
         }
 
         setLoading(false);
@@ -115,7 +115,7 @@ export default function ExamComponent() {
       setCurrentQuestionIndex(0);
       setAnswers({});
       setMarkedForReview([]);
-      setTimeLeft(1 * 60); // Reset timer after submission
+      setTimeLeft(180 * 60); // Reset timer after submission
       alert("Answers submitted successfully!");
       router.push("/");
     } catch (error) {
