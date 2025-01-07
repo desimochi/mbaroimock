@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
+import StudentProfile from "@/components/Stuprofileupdate";
 
 export default async function TeacherProfile({ params }) {
   // Ensure params are awaited before using them

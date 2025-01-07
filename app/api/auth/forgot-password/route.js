@@ -24,7 +24,7 @@ export async function POST(req) {
     const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     // Generate a reset link
-    const resetLink = `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password?token=${token}`;
+    const resetLink = `https://mock.mbaroi.in/reset-password?token=${token}`;
 
     // Configure nodemailer
     const transporter = nodemailer.createTransport({

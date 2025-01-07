@@ -3,16 +3,16 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 
-export default function TogglePopoverLogin({ user }) {
+export default function TogglePopoverLogin({ user, data }) {
   const [isPopoverVisible, setIsPopoverVisible] = useState(false);
   const popoverRef = useRef(null);
   const buttonRef = useRef(null);
-
+  const displayedName = user?.name ?? data.user?.name ?? "Guest"
   let urll;
-  if (user.user?.role === "teacher") {
-    urll = `/profiles/teachers/${user.user?.id}`;
+  if (data.user?.role === "teacher") {
+    urll = `/profiles/teachers/${data.user?.id}`;
   } else {
-    urll = `/profiles/students/${user.user?.id}`;
+    urll = `/profiles/students/${data.user?.id}`;
   }
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function TogglePopoverLogin({ user }) {
         type="button"
         className="px-6 py-2 border-2 border-red-800 rounded-full text-red-800 hover:bg-red-800 hover:text-white transition duration-300"
       >
-        {user.user?.name}
+        {displayedName}
       </button>
 
       {/* Popover */}
@@ -73,11 +73,11 @@ export default function TogglePopoverLogin({ user }) {
               </button>
             </div>
             <p className="text-base font-semibold leading-none text-gray-900 dark:text-white">
-              <a href="#">{user.user?.name}</a>
+              <a href="#">{displayedName}</a>
             </p>
             <p className="mb-3 text-sm font-normal">
               <a href="#" className="hover:underline">
-                {user.user?.email}
+                {user.email}
               </a>
             </p>
             <p className="mb-4 text-sm">

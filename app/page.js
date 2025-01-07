@@ -50,10 +50,10 @@ export const metadata = {
       apple: '/icons/apple-touch-icon.png',
     },
     alternates: {
-      canonical: 'https://www.mywebsite.com/example',
+      canonical: 'https://www.mock.mbaroi.in/',
       languages: {
-        'en-US': 'https://www.mywebsite.com/example',
-        'es-ES': 'https://www.mywebsite.com/es/example',
+        'en-US': 'https://www.mock.mbaroi.in',
+        'es-ES': 'https://www.mock.mbaroi.in',
       },
     },
     other: {

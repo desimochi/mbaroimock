@@ -4,9 +4,13 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 import Link from "next/link";
 import TogglePopoverLogin from "./TogglePopoverLogin";
+import { useUser } from "@/context/UserContext";
+
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const { user } = useUser();
+
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <nav className="bg-white shadow-sm py-4 px-8 sticky top-0 z-50">
@@ -76,13 +80,13 @@ export default function Navbar() {
     {/* Sign Up Button */}
     <div className="hidden md:block">
       {session ? (
-        <TogglePopoverLogin user={session} />
+        <TogglePopoverLogin user={user} data={session} />
       ) : (
         <button
           onClick={() => signIn()}
           className="px-6 py-2 border-2 border-black rounded-full text-black hover:bg-black hover:text-white transition duration-300"
         >
-          Sign up
+          Sign In
         </button>
       )}
     </div>

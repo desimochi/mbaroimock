@@ -36,11 +36,11 @@ export default function TopicWise({ data }) {
   
     return (
       <div className="p-4 mt-5 mb-6 border rounded items-center bg-gray-100">
-  <h1 className="text-xl mt-2 bg-gray-800 py-2 text-white rounded font-semibold text-center">Subject-Wise Performance</h1>
+  <h1 className="text-xl mt-2 bg-red-800 py-2 text-white rounded-full font-semibold text-center">Subject-Wise Performance</h1>
   <div className="overflow-x-auto">
-    <table className="border border-gray-500 w-full">
+    <table className="border border-gray-800 w-full mt-5">
       <thead>
-        <tr className="bg-gray-500 text-white">
+        <tr className="bg-gray-800 text-white">
           <th className="border px-4 py-2">Subject</th>
           <th className="border px-4 py-2">Questions</th>
           <th className="border px-4 py-2">Answered</th>
@@ -63,7 +63,7 @@ export default function TopicWise({ data }) {
           </tr>
         ))}
       </tbody>
-      <tfoot className="text-center bg-gray-500 text-white">
+      <tfoot className="text-center bg-gray-800 text-white">
         <tr>
           <td className="border px-4 font-bold py-2">Total</td>
           <td className="border px-4 py-2">{data.length}</td>
