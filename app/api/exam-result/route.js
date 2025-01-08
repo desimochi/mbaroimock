@@ -31,7 +31,14 @@ export async function GET(req) {
     const client = await clientPromise;
     console.log("Connected to MongoDB");
     const db = client.db("sample_mflix");
-
+    const ranking = await db.collection("ranking").find({}).toArray();
+    const rankedData = ranking.sort((a, b) => b.marksreceieved - a.marksreceieved).map((item, index) => ({
+    ...item,
+    rank: index + 1
+  }));
+  const filteredRanking = rankedData.filter(
+    item => item.userId === userId && item.mock === exam
+  );
     const resultData = await db.collection("results").findOne({ mock: exam, userId });
     if (!resultData) {
       console.error("Results not found for exam:", exam, "and userId:", userId);
@@ -41,10 +48,10 @@ export async function GET(req) {
       );
     }
 
-    console.log("Results found:", resultData.results);
+
 
     return new Response(
-      JSON.stringify({ message: "Success", data: resultData.results }),
+      JSON.stringify({ message: "Success",  data: resultData.results, ranking: filteredRanking[0].rank, }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {

@@ -8,6 +8,7 @@ export default function ExamResultComponent() {
   const searchParams = useSearchParams();
   const exam = searchParams.get("exam");
   const [result, setResult] = useState([]); // Initialize as an empty array
+  const [ranking, setRanking] = useState()
 
   useEffect(() => {
     const fetchResult = async () => {
@@ -19,7 +20,8 @@ export default function ExamResultComponent() {
         }
         const data = await response.json();
         console.log("Fetched data:", data); // Debug log
-        setResult(data.data || []); // Fallback to an empty array
+        setResult(data.data || []);
+        setRanking(data.ranking || '')
       } catch (error) {
         console.error("Error fetching results:", error);
       }
@@ -34,11 +36,11 @@ export default function ExamResultComponent() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-xl mt-2 bg-red-800 py-2 text-white rounded font-semibold text-center">Exam Performance Overview</h1>
-      <hr class="border-t-2 border-red-800" />
+      <hr className="border-t-2 border-red-800" />
       {/* Donut Chart */}
         <div className="flex flex-col sm:flex-row gap-3">
             <div className="w-full sm:w-5/12">
-            <OverView data={result} />
+            <OverView data={result} rank= {ranking} mockexam={exam}/>
             </div>
             <div className="w-full sm:w-7/12">
             <TopicWise data={result}/>
@@ -63,34 +65,33 @@ export default function ExamResultComponent() {
               </tr>
             </thead>
             <tbody>
-              {result.map((item, index) => (
-                <tr
-                  key={item.questionIds} // Use a unique identifier
-                  className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
-                >
-                  <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.questionText}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.userAnswer}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.correctAnswer}</td>
-                  <td
-                    className={`border border-gray-300 px-4 py-2 ${
-                      item.correct ? "text-green-600" : "text-red-600"
-                    }`}
-                  >
-                    {item.correct === '' || item.correct === undefined
-                      ? "No Answer"
-                      : item.correct
-                      ? "Correct"
-                      : "Wrong"}
-                  </td>
-                  <td
-                    className='border border-gray-300 px-4 py-2'
-                  >
-                    {item.solution}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+  {result.map((item, index) => (
+    <tr
+      key={`${item.questionIds || 'key'}-${index}`} // Ensure unique key
+      className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+    >
+      <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
+      <td className="border border-gray-300 px-4 py-2">{item.questionText}</td>
+      <td className="border border-gray-300 px-4 py-2">{item.userAnswer}</td>
+      <td className="border border-gray-300 px-4 py-2">{item.correctAnswer}</td>
+      <td
+        className={`border border-gray-300 px-4 py-2 ${
+          item.correct ? "text-green-600" : "text-red-600"
+        }`}
+      >
+        {item.correct === '' || item.correct === undefined
+          ? "No Answer"
+          : item.correct
+          ? "Correct"
+          : "Wrong"}
+      </td>
+      <td className="border border-gray-300 px-4 py-2">
+        {item.solution}
+      </td>
+    </tr>
+  ))}
+</tbody>
+
           </table>
         </div>
       ) : (

@@ -30,10 +30,11 @@ export async function POST(req) {
     const client = await clientPromise;
     const db = client.db("sample_mflix");
     const results = [];
-
+    let marksreceieved = 0
     // Check if a response already exists for this userId and mock
     const existingResponse = await db.collection("response").findOne({ userId, mock });
     const existingResult = await db.collection("results").findOne({ userId, mock });
+    const existingRanking = await db.collection("ranking").findOne({userId, mock})
 
     // Fetch mock data
     const mockData = await db.collection('mock').findOne({ _id: new ObjectId(mock) });
@@ -126,13 +127,16 @@ export async function POST(req) {
           // Unanswered question
           isCorrect = ''
           markAwarded = 0;
+          marksreceieved+=0
         } else if (isCorrect) {
           isCorrect = true
           markAwarded = marks;
+          marksreceieved+=marks
         } else {
           // Incorrect answer
           isCorrect = false
           markAwarded = negativemarks;
+          marksreceieved-=negativemarks
         }
 
         results.push({
@@ -182,6 +186,33 @@ export async function POST(req) {
       const insertResult = await db.collection("results").insertOne(resultDoc);
       console.log("Result submitted successfully with ID:", insertResult.insertedId);
     }
+    const RankingDoc = {
+      userId,
+      mock,
+      marksreceieved
+    }
+    if (existingRanking) {
+      const updateRanking = await db.collection("ranking").updateOne(
+        { userId, mock },
+        {
+          $set: {
+            marksreceieved,
+            submittedAt: new Date(),
+          },
+        }
+      );
+
+      if (updateRanking.modifiedCount > 0) {
+        console.log("Results updated successfully.");
+      } else {
+        console.error("Failed to update results. Check the query or document structure.");
+      }
+    } else {
+      const insertRanking = await db.collection("ranking").insertOne(RankingDoc);
+      console.log("Result submitted successfully with ID:", insertRanking.insertedId);
+    }
+
+
 
     // Update or insert the response
     if (existingResponse) {

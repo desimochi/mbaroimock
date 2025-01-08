@@ -1,4 +1,5 @@
 import { Doughnut } from "react-chartjs-2";
+import Link from "next/link";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -8,7 +9,7 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function OverView({ data }) {
+export default function OverView({ data, rank, mockexam }) {
   const total = data.length;
   const correctCount = data.filter((item) => item.correct === true).length;
   const wrongCount = data.filter((item) => item.correct === false).length;
@@ -87,16 +88,21 @@ export default function OverView({ data }) {
   </table>
 </div>
 </div>
-      <div className="flex justify-between px-8 items-center mt-5 p-3 gap-4">
-        <div className="p-4 text-center bg-gray-800 rounded-full w-full">
+      <div className="flex justify-between items-center mt-5 pt-3 pb-6 gap-4">
+        <div className="p-4 text-center bg-red-800 rounded-full w-1/2">
               <p className="text-white text-4xl font-bold">{sucessrate}%</p>
               <p className="text-white">Success Rate</p>
         </div>
-        {/* <div className="p-4 text-center bg-gray-800 rounded w-1/2">
-              <p className="text-white text-4xl font-bold">2nd</p>
-              <p className="text-white">Rank in Leadeboard</p>
-        </div> */}
+        <div className="p-4 text-center  text-red-800 bg-white border border-red-800 hover:bg-red-800 hover:text-white rounded-full w-1/2">
+              <p className=" text-4xl font-bold">{rank}</p>
+              <p className="-800">Rank in the Exam</p>
+        </div>
       </div>
+      <Link href={`/leaderboard?mock=${mockexam}`}>
+      <button className="w-full bg-black text-white rounded-full mx-auto p-3">
+        See Leaderboard
+      </button>
+      </Link>
     </div>
   );
 }
