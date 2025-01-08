@@ -3,6 +3,7 @@ import Image from "next/image";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import clientPromise from "@/lib/mongodb";
 import { redirect } from "next/navigation";
+import { ObjectId } from "mongodb";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
@@ -13,7 +14,7 @@ export default async function TeacherProfile({ params }) {
   const client = await clientPromise;
   const db = client.db("sample_mflix");
   const session = await getServerSession(authOptions); // Fetch session
-
+  const userId = new ObjectId(username);
   // If not authenticated, redirect to login page
   if (!session) {
     redirect("/login");
@@ -21,12 +22,11 @@ export default async function TeacherProfile({ params }) {
 
   // Check if the user role is "teacher" and the username matches
   if (
-    session.user.role !== "teacher" ||
-    session.user.name.toLowerCase() !== username.toLowerCase()
+    session.user.role !== "teacher" 
   ) {
     redirect("/unauthorized");
   }
-  const teacher = await db.collection("users").findOne({ name: username, role: "teacher" });
+  const teacher = await db.collection("users").findOne({ _id: userId });
   const mocks = await db.collection("mock").find({ userId: teacher._id.toString() }).toArray();
 
   return (
