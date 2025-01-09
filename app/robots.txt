@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /exam
+Disallow: /profiles/teachers
+Disallow: /profiles/students
+Disallow: /exam-results
+Sitemap: https://mock.mbaroi.in/sitemap.xml

@@ -223,6 +223,16 @@ export default function ExamComponent() {
               Previous
             </button>
             <button
+              className="px-4 py-2 bg-white border border-gray-800 text-black rounded"
+              onClick={() => {
+                const updatedAnswers = { ...answers };
+                delete updatedAnswers[currentQuestion.questionId]; // Remove the answer for the current question
+                setAnswers(updatedAnswers); // Update the state with the modified answers
+              }}
+            >
+              Clear Response
+            </button>
+            <button
               className={`px-4 py-2 ${
                 markedForReview.includes(currentQuestion?.questionId)
                   ? "bg-purple-500"

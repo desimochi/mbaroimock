@@ -62,6 +62,34 @@ export const metadata = {
 };
 
 export default function Home() {
+  const schemaMarkup = {
+    "@context": "https://schema.org/",
+    "@id": "./",
+    "@type": "Course",
+    "name": "MBA Mock Test",
+    "description": "This course is designed for those wishing to take up \r\n       a career in Accounting and Financial Administration within a range of \r\n       organisations....",
+    "hasCourseInstance": [
+      {
+        "@type": "CourseInstance",
+        "courseMode": "online-exam",
+        "location": "mock.mbaroi.in",
+        "startDate": "2024-01-09"
+      },
+      {
+        "@type": "CourseInstance",
+        "courseMode": "online-exam",
+        "location": "mock.mbaroi.in",
+        "startDate": "2024-01-09"
+      },
+      {
+        "@type": "CourseInstance",
+        "courseMode": "online-exam",
+        "location": "mock.mbaroi.in",
+        "startDate": "2024-01-09"
+      }
+    ]
+  }
+  
   return (
     <>
      
@@ -71,6 +99,12 @@ export default function Home() {
       <Features/>
       <Faq/>
     </div>
+    <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schemaMarkup),
+        }}
+      />
     </>
   );
 }
