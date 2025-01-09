@@ -27,7 +27,14 @@ export default function Register() {
     e.preventDefault();
     setError(null);
     setSuccess(false);
-
+  
+    // Validate mobile number
+    const mobileRegex = /^\d{10}$/; // Regular expression for 10 digits
+    if (!mobileRegex.test(formData.mobile)) {
+      setError("Mobile number must be exactly 10 digits.");
+      return;
+    }
+  
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -36,15 +43,15 @@ export default function Register() {
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (!response.ok) {
         const data = await response.json();
         throw new Error(data.message || "Something went wrong!");
       }
-
+  
       setSuccess(true);
       setFormData({ name: "", email: "", password: "", mobile: "" });
-
+  
       // Redirect to login or another page
       router.push("/");
     } catch (err) {
