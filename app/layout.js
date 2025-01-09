@@ -32,6 +32,9 @@ const geistMono = localFont({
 export const metadata = {
   title: "MBAROIMock",
   description: "",
+  other: {
+    'google-site-verification': 'BLxedYuX1HvUkLQ4DLGZIU9bf4Px4wgEXUmXsMPQXOA',
+  },
 };
 
 export default async function RootLayout({ children }) {
