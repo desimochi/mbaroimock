@@ -78,7 +78,7 @@ export default function TogglePopoverLogin({ user, data }) {
             </p>
             <p className="mb-3 text-sm font-normal">
               <a href="#" className="hover:underline">
-                {user.email}
+                {data.user?.email}
               </a>
             </p>
             <p className="mb-4 text-sm">
