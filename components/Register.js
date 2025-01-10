@@ -31,7 +31,7 @@ export default function Register() {
     // Validate mobile number
     const mobileRegex = /^\d{10}$/; // Regular expression for 10 digits
     if (!mobileRegex.test(formData.mobile)) {
-      setError("Mobile number must be exactly 10 digits.");
+      setError("Check Your Mobile No.");
       return;
     }
   

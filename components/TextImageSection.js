@@ -11,8 +11,8 @@ export default function TextImageSection() {
       <div className="max-w-7xl mt-16 sm:mt-24 mx-auto">
         {/* Heading */}
         <div className="text-center">
-          <h1 className="text-3xl sm:text-2xl lg:text-6xl font-normal leading-tight">
-            Give <span className="text-red-600 underline">MBAROI Mocks</span>{' '}
+          <h1 className="text-3xl sm:text-2xl lg:text-5xl font-normal leading-tight">
+            Take <span className="text-red-600 underline">MBAROI Mocks</span>{' '}
             and <br /> score big in MBA exam
           </h1>
         </div>
@@ -20,7 +20,7 @@ export default function TextImageSection() {
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row justify-center gap-6 mt-8 p-4">
           {!session? <Link href='/register'><button className="bg-red-700 text-white px-6 py-3 w-full rounded-full text-lg">
-            Register Yourself
+            Register
           </button></Link> : <Link href={`/profiles/students/${session.user.id}`}><button className="bg-red-700 text-white px-6 py-3 w-full rounded-full text-lg">
             See Profile
           </button></Link> }

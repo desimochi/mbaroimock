@@ -27,6 +27,12 @@ export default function MockTests() {
 
     fetchMocks();
   }, []);
+  
+  function formatExamName(name) {
+    return name
+      .replace(/([a-z])([A-Z0-9])/g, '$1 $2') // Insert space between lowercase and uppercase/digit
+      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2'); // Insert space between consecutive uppercase letters followed by lowercase
+  }
 
   if (loading) {
     return (
@@ -66,7 +72,7 @@ export default function MockTests() {
           key={mock._id}
           className="w-full sm:w-1/4 p-4 border border-gray-400 rounded-[12px] text-black overflow-hidden"
         >
-          <h5 className="text-lg font-semibold text-center">{mock.examName}</h5>
+          <h5 className="text-lg font-semibold text-center">{formatExamName(mock.examName)}</h5>
           <div className="border-t border-dotted border-gray-400 my-3"></div>
           <p className="text-sm text-gray-300 break-words">{mock.description}</p>
           <div className="flex justify-between">
