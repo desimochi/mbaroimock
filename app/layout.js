@@ -2,7 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/NavBar";
 import Providers from "@/components/Providers";
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import Footer from "@/components/Footer";
 import { UserProvider } from "@/context/UserContext";
 import { getServerSession } from "next-auth";
@@ -51,6 +51,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <GoogleTagManager gtmId="GTM-KR3VCLK9" />
       <GoogleAnalytics gaId="G-F5NWW5896Q" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

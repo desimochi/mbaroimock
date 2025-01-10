@@ -15,7 +15,6 @@ export default function MockTests() {
           throw new Error("Failed to fetch mock test details");
         }
         const data = await response.json();
-        console.log(data)
         setMocks(data);
       } catch (err) {
         console.error(err);
