@@ -5,7 +5,7 @@ import nodemailer from "nodemailer";
 export async function POST(req) {
   try {
     const { email } = await req.json();
-    const lowerCaseEmail = email?.toLowerCase();
+    const lowerCaseEmail = email.toLowerCase();
 
     if (!email) {
       return new Response(JSON.stringify({ error: "Email is required" }), { status: 400 });
