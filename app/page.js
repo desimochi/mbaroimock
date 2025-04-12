@@ -7,13 +7,13 @@ import MockTests from "@/components/MockTests";
 import Faq from "@/components/FAQ";
 import Features from "@/components/Features";
 export const metadata = {
-    title: 'MBAROI Mocks - CMAT 2025 Mock Available | Free Mocks',
-    description: 'Boost your CMAT 2025 prep with free mock tests! Access high-quality CMAT mocks, analyze performance, and sharpen your skills for exam success. Start now!',
+    title: 'MBAROI Mocks - CAT 2025 Mock Available | Free Mocks',
+    description: 'Boost your CAT 2025 prep with free mock tests! Access high-quality CAT mocks, analyze performance, and sharpen your skills for exam success. Start now!',
     
     // Open Graph (OG) meta tags for social media
     openGraph: {
-      title: 'MBAROI Mocks - CMAT 2025 Mock Available | Free Mocks',
-      description: 'Boost your CMAT 2025 prep with free mock tests! Access high-quality CMAT mocks, analyze performance, and sharpen your skills for exam success. Start now!',
+      title: 'MBAROI Mocks - CAT 2025 Mock Available | Free Mocks',
+      description: 'Boost your CAT 2025 prep with free mock tests! Access high-quality CAT mocks, analyze performance, and sharpen your skills for exam success. Start now!',
       url: 'https://mock.mbaroi.in/',
       siteName: 'MBAROIMOCK',
       images: [
@@ -31,8 +31,8 @@ export const metadata = {
     // Twitter card metadata
     twitter: {
       card: 'summary_large_image',
-      title: 'MBAROI Mocks - CMAT 2025 Mock Available | Free Mocks',
-      description: 'Boost your CMAT 2025 prep with free mock tests! Access high-quality CMAT mocks, analyze performance, and sharpen your skills for exam success. Start now!.',
+      title: 'MBAROI Mocks - CAT 2025 Mock Available | Free Mocks',
+      description: 'Boost your CAT 2025 prep with free mock tests! Access high-quality CAT mocks, analyze performance, and sharpen your skills for exam success. Start now!.',
       images: ['/student.jpg'],
     },
   

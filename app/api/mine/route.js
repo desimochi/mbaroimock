@@ -94,6 +94,7 @@ export async function GET(req) {
       return {
         questionId: question._id,
         questionText: question.question,
+        para : question.para || null,
         image: question.image || null, 
         options: {
           A: questionOptions[0]?.a || "",

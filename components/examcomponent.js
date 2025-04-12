@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import CMATInstructions from "./ExamIns";
+import Link from "next/link";
 
 export default function ExamComponent() {
   const searchParams =useSearchParams()
@@ -11,10 +12,12 @@ export default function ExamComponent() {
   const router = useRouter();
   const [mock, setMock] = useState();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [submission, setSubmission] = useState(false)
   const [answers, setAnswers] = useState({});
   const [markedForReview, setMarkedForReview] = useState([]);
   const [instructions, setinstructions] = useState(true)
   const [loading, setLoading] = useState(true);
+  const [subloading, setSubLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(180 * 60); // 1 minute in seconds
   const [isTimerExpired, setIsTimerExpired] = useState(false); // Track if timer has expired
 
@@ -83,6 +86,7 @@ export default function ExamComponent() {
   }, [instructions]);
 
   const handleSubmit = async () => {
+    setSubLoading(true)
     if (!mock || questions.length === 0) {
       alert("No questions to submit.");
       return;
@@ -115,9 +119,9 @@ export default function ExamComponent() {
       setCurrentQuestionIndex(0);
       setAnswers({});
       setMarkedForReview([]);
-      setTimeLeft(180 * 60); // Reset timer after submission
-      alert("Answers submitted successfully!");
-      router.push("/");
+      setTimeLeft(180 * 60);
+      setSubLoading(false) // Reset timer after submission
+      setSubmission(true)
     } catch (error) {
       console.error("Error submitting answers:", error);
       alert("An unexpected error occurred while submitting answers.");
@@ -134,7 +138,7 @@ export default function ExamComponent() {
       return <CMATInstructions handleins={handleins}/>
   }
   
-  if (loading) return <div className="flex items-center justify-center min-h-screen">
+  if (loading) return <div className="flex items-center justify-center h-80">
   <div aria-label="Loading Questions..." role="status" className="flex items-center space-x-2">
     <svg className="h-20 w-20 animate-spin stroke-gray-500" viewBox="0 0 256 256">
       <line x1="128" y1="32" x2="128" y2="64" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
@@ -155,7 +159,7 @@ export default function ExamComponent() {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto py-8 px-8 sm:px-36">
       {/* Timer */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
         <div className="text-lg font-semibold text-red-600">
@@ -189,11 +193,12 @@ export default function ExamComponent() {
         <div className="border-2 pt-8 pb-8 px-6 rounded">
           {currentQuestion && (
             <div className="mb-4">
-              <h2 className="text-lg mb-2">
+            {currentQuestion.para &&<p className="mb-2"><span className="font-bold">Paragraph - </span>{currentQuestion.para}</p>}
+              <h2 className="text-lg font-bold mb-2">
                 {currentQuestionIndex + 1}. {currentQuestion.questionText}
               </h2>
               {currentQuestion.image &&   <img src={currentQuestion.image} alt="Fetched from backend" className="w-64 h-auto" />}
-              <div>
+              <div className="mt-4">
                 {Object.entries(currentQuestion.options).map(([key, value]) => (
                   <div key={key} className="mb-2">
                     <label>
@@ -215,7 +220,7 @@ export default function ExamComponent() {
             </div>
           )}
 
-          <div className="flex justify-between gap-2">
+          <div className="flex flex-col sm:flex-row justify-between gap-2">
             <button
               className="px-4 py-2 bg-blue-500 text-white rounded"
               onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
@@ -257,7 +262,7 @@ export default function ExamComponent() {
               onClick={handleSubmit}
     // Disable if timer expired
             >
-              Submit Exam
+             {subloading? "Submitting..." : "Submit Exam"} 
             </button> : <button
               className="px-4 py-2 bg-blue-800 text-white rounded"
               onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
@@ -280,7 +285,7 @@ export default function ExamComponent() {
     return (
       <div
         key={index}
-        className={`w-8 h-10 rounded-full flex items-center text-white justify-center ${circleColor} cursor-pointer`}
+        className={`w-5 h-6 p-1 sm:w-10 sm:h-8 rounded-full flex items-center text-white justify-center ${circleColor} cursor-pointer`}
         onClick={() => setCurrentQuestionIndex(index)}
         style={{ flex: "0 0 calc(12% - 0.4rem)" }} // Ensures 5 circles fit in one row
       >
@@ -303,6 +308,20 @@ export default function ExamComponent() {
             >
               Submit Answers
             </button>
+          </div>
+        </div>
+      )}
+      {submission && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-white w-80 p-6 rounded shadow-lg text-center">
+            <h2 className="text-xl font-bold mb-2">Mock Test Submitted</h2>
+            <p className="mb-4 text-sm">Check Your Result Now</p>
+            <Link
+              className="px-6 py-3 mt-4 bg-green-500 text-white text-lg rounded w-full"
+              href={`/exam-results?exam=${mockId}`}
+            >
+              See Result
+            </Link>
           </div>
         </div>
       )}
