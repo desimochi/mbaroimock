@@ -5,7 +5,6 @@ import nodemailer from "nodemailer";
 export async function POST(req) {
   try {
     const { email } = await req.json();
-    const lowerCaseEmail = email.toLowerCase();
 
     if (!email) {
       return new Response(JSON.stringify({ error: "Email is required" }), { status: 400 });
@@ -16,13 +15,13 @@ export async function POST(req) {
     const usersCollection = db.collection("users");
 
     // Check if the user exists
-    const user = await usersCollection.findOne({ lowerCaseEmail });
+    const user = await usersCollection.findOne({ email });
     if (!user) {
       return new Response(JSON.stringify({ error: "Email not found" }), { status: 404 });
     }
 
     // Generate a reset token
-    const token = jwt.sign({ lowerCaseEmail }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     // Generate a reset link
     const resetLink = `https://mock.mbaroi.in/reset-password?token=${token}`;
