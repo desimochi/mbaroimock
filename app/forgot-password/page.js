@@ -54,7 +54,7 @@ export default function ForgotPassword() {
           type="submit"
           className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
         >
-          {loading? "Sending Link..." : "Send Reset Link"}Send Reset Link
+          {loading? "Sending Link..." : "Send Reset Link"}
         </button>
       </form>
     </div>
