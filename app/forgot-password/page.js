@@ -5,10 +5,12 @@ import { useState } from "react";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
+  const[loading, setLoadig] = useState(false)
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoadig(true)
 
     try {
       const response = await fetch("/api/auth/forgot-password", {
@@ -22,12 +24,15 @@ export default function ForgotPassword() {
       if (response.ok) {
         setMessage(data.message);
         setError(null);
+        setLoadig(false)
       } else {
         setError(data.error);
         setMessage(null);
       }
     } catch (err) {
       setError("Something went wrong. Please try again later.");
+    } finally{
+      setLoadig(false)
     }
   };
 
@@ -47,9 +52,9 @@ export default function ForgotPassword() {
         {error && <p className="text-red-500 mt-2">{error}</p>}
         <button
           type="submit"
-          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
         >
-          Send Reset Link
+          {loading? "Sending Link..." : "Send Reset Link"}Send Reset Link
         </button>
       </form>
     </div>
