@@ -192,6 +192,7 @@ export default function ExamComponent() {
               <h2 className="text-lg mb-2">
                 {currentQuestionIndex + 1}. {currentQuestion.questionText}
               </h2>
+              {currentQuestion.image &&   <img src={currentQuestion.image} alt="Fetched from backend" className="w-64 h-auto" />}
               <div>
                 {Object.entries(currentQuestion.options).map(([key, value]) => (
                   <div key={key} className="mb-2">

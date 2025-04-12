@@ -2,15 +2,18 @@
 
 import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 
 function ResetPasswordComponent() {
   const [password, setPassword] = useState("");
+  const [loading, setLoadig] = useState(false)
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
 
   const handleSubmit = async (e) => {
+    setLoadig(true)
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -32,9 +35,12 @@ function ResetPasswordComponent() {
       if (response.ok) {
         setMessage(data.message);
         setError(null);
+        setLoadig(false)
+        redirect("/login");
       } else {
         setError(data.error);
         setMessage(null);
+        setLoading(false)
       }
     } catch (err) {
       setError("Something went wrong. Please try again later.");
@@ -65,9 +71,10 @@ function ResetPasswordComponent() {
         {error && <p className="text-red-500 mt-2">{error}</p>}
         <button
           type="submit"
+          disabled={loading}
           className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
         >
-          Reset Password
+          {loading? "Resetting...." : "Reset Password"}
         </button>
       </form>
     </div>

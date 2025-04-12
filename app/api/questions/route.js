@@ -11,19 +11,19 @@ export async function POST(req) {
     );
   }
 
-  if (session.user.role !== "teacher") {
-    return new Response(
-      JSON.stringify({ message: "Forbidden: Access denied" }),
-      { status: 403, headers: { "Content-Type": "application/json" } }
-    );
-  }
+  // if (session.user.role !== "teacher") {
+  //   return new Response(
+  //     JSON.stringify({ message: "Forbidden: Access denied" }),
+  //     { status: 403, headers: { "Content-Type": "application/json" } }
+  //   );
+  // }
 
   try {
   
     
 
     const body = await req.json();
-    const { question, topic, subject, level, type, options, para, solution, examName } = body;
+    const { question, topic, subject, level, type, options, para, solution, image, examName } = body;
     if (!examName) {
       return new Response(
         JSON.stringify({ message: "Invalid request: Missing exam name" }),
@@ -101,6 +101,7 @@ export async function POST(req) {
       type,
       solution,
       para,
+      image,
       mockId: mock._id,
       createdAt: 'new Date()',
     });

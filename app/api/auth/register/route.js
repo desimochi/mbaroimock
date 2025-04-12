@@ -3,9 +3,10 @@ import { hashPassword } from "@/lib/auth";
 
 export async function POST(req) {
   const { email, password, name, mobile } = await req.json();
-  const role ='student';
-  const created_at = 'Date.now()'
-  const updatedAt = 'Date.now()'
+  const role = "student";
+  const created_at = new Date();
+  const updatedAt = new Date();
+
   if (!email || !password || password.trim().length < 6) {
     return new Response(JSON.stringify({ message: "Invalid input." }), {
       status: 422,
@@ -24,8 +25,10 @@ export async function POST(req) {
     });
   }
 
-  // Hash the password and store the user
+  // Hash the password
   const hashedPassword = await hashPassword(password);
+
+  // Insert the new user
   await usersCollection.insertOne({
     email,
     password: hashedPassword,
@@ -33,10 +36,10 @@ export async function POST(req) {
     mobile,
     role,
     created_at,
-    updatedAt
+    updatedAt,
   });
 
-  return new Response(JSON.stringify({ message: "User created successfully!" }), {
+  return new Response(JSON.stringify({ message: "User created successfully!", email, password }), {
     status: 201,
   });
 }

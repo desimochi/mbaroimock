@@ -11,9 +11,6 @@ export default async function ExamSelectPage() {
   }
 
   // Only allow teachers to access the page
-  if (session.user.role !== "teacher") {
-    redirect("/");
-  }
  
 
   return (

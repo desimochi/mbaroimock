@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
+
 export default function Register() {
- 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,12 +12,17 @@ export default function Register() {
     mobile: "",
   });
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { data: session } = useSession();
-  if(session){
-    router.push("/");
-  }
+  const { data: session, status } = useSession();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [session, status, router]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -26,16 +31,18 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    setSuccess(false);
-  
+    setLoading(true);
+
     // Validate mobile number
-    const mobileRegex = /^\d{10}$/; // Regular expression for 10 digits
+    const mobileRegex = /^\d{10}$/;
     if (!mobileRegex.test(formData.mobile)) {
       setError("Check Your Mobile No.");
+      setLoading(false);
       return;
     }
-  
+
     try {
+      // Register User
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
@@ -43,19 +50,29 @@ export default function Register() {
         },
         body: JSON.stringify(formData),
       });
-  
+
+      const data = await response.json();
       if (!response.ok) {
-        const data = await response.json();
         throw new Error(data.message || "Something went wrong!");
       }
-  
-      setSuccess(true);
-      setFormData({ name: "", email: "", password: "", mobile: "" });
-  
-      // Redirect to login or another page
-      router.push("/");
+
+      // Auto Login
+      const result = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false, // Prevent auto redirection
+      });
+
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+
+      // Redirect to dashboard/homepage after login
+      router.push("/dashboard");
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,7 +81,6 @@ export default function Register() {
       <div className="w-full max-w-md p-8 bg-white border shadow-md rounded-md">
         <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        {success && <p className="text-green-500 mb-4">User registered successfully!</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -124,9 +140,10 @@ export default function Register() {
           </div>
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-red-800 text-white rounded-full font-medium py-2 px-4 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
         <p className="mt-4 text-sm text-center">

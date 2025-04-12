@@ -4,12 +4,10 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db("sample_mflix");
-    const mockCollection = await db
-      .collection("mock")
-      .find({ $expr: { $eq: ["$limit", "$uploadedquestion"] } })
-      .toArray();
+    const mockCollection = await db.collection("cmatquestions").find({}).toArray();
+    const length = mockCollection.length;
 
-    return new Response(JSON.stringify(mockCollection), {
+    return new Response(JSON.stringify(length), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
