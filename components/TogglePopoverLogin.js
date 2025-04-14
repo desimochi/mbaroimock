@@ -41,7 +41,7 @@ export default function TogglePopoverLogin({ user, data }) {
         onMouseEnter={() => setIsPopoverVisible(true)}
         ref={buttonRef}
         type="button"
-        className="px-6 py-2 border-2 border-red-800 rounded-full text-red-800 hover:bg-red-800 hover:text-white transition duration-300"
+        className="px-6 py-2 border-2 border-red-800 rounded-md text-red-800 hover:bg-red-800 hover:text-white transition duration-300"
       >
         {displayedName}
       </button>

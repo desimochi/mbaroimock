@@ -199,23 +199,40 @@ export default function ExamComponent() {
               </h2>
               {currentQuestion.image &&   <img src={currentQuestion.image} alt="Fetched from backend" className="w-64 h-auto" />}
               <div className="mt-4">
-                {Object.entries(currentQuestion.options).map(([key, value]) => (
-                  <div key={key} className="mb-2">
-                    <label>
-                      <input
-                        type="radio"
-                        name={`question-${currentQuestion.questionId}`}
-                        value={key}
-                        checked={answers[currentQuestion.questionId] === key}
-                        onChange={() =>
-                          setAnswers({ ...answers, [currentQuestion.questionId]: key })
-                        }
-                        disabled={isTimerExpired} // Disable if timer expired
-                      />
-                      <span className="ml-2">{value}</span>
-                    </label>
-                  </div>
-                ))}
+              {currentQuestion.type !=="tita" && (
+  Object.entries(currentQuestion.options).map(([key, value]) => (
+    <div key={key} className="mb-2">
+      <label>
+        <input
+          type="radio"
+          name={`question-${currentQuestion.questionId}`}
+          value={key}
+          checked={answers[currentQuestion.questionId] === key}
+          onChange={() =>
+            setAnswers({ ...answers, [currentQuestion.questionId]: key })
+          }
+          disabled={isTimerExpired}
+        />
+        <span className="ml-2">{value}</span>
+      </label>
+    </div>
+  ))
+)}
+                {currentQuestion.type === 'tita' && (
+  <textarea
+    name={`question-${currentQuestion.questionId}`}
+    className="w-full mt-2 border border-gray-300 rounded px-3 py-2"
+    rows={4}
+    value={answers[currentQuestion.questionId] || ""}
+    onChange={(e) =>
+      setAnswers({
+        ...answers,
+        [currentQuestion.questionId]: e.target.value,
+      })
+    }
+    disabled={isTimerExpired}
+  />
+)}
               </div>
             </div>
           )}

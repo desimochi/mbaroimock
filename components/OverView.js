@@ -33,9 +33,9 @@ export default function OverView({ data, rank, mockexam }) {
 
   return (
     <div
-      className="mt-5 mb-6 p-6 border rounded items-center bg-gray-100"
+      className="mt-5 mb-6 p-6 border rounded items-center bg-white"
     >
-      <h2 className="text-xl mt-2 bg-red-800 py-2 text-white rounded-full font-semibold text-center">
+      <h2 className="text-xl mt-2 bg-red-50 py-2 text-red-800 rounded-sm font-semibold text-center">
         Performance Overview
       </h2>
       <div className="flex flex-col sm:flex-row mt-4 gap-3">
@@ -89,20 +89,11 @@ export default function OverView({ data, rank, mockexam }) {
 </div>
 </div>
       <div className="flex justify-between items-center mt-5 pt-3 pb-6 gap-4">
-        <div className="p-4 text-center bg-red-800 rounded-full w-1/2">
-              <p className="text-white text-4xl font-bold">{sucessrate}%</p>
-              <p className="text-white">Success Rate</p>
-        </div>
-        <div className="p-4 text-center  text-red-800 bg-white border border-red-800 hover:bg-red-800 hover:text-white rounded-full w-1/2">
-              <p className=" text-4xl font-bold">{rank}</p>
-              <p className="-800">Rank in the Exam</p>
+        <div className="p-4 text-center bg-red-50 text-red-800 rounded-md w-full">
+              <p className=" text-4xl font-bold">{sucessrate}%</p>
+              <p className="">Success Rate</p>
         </div>
       </div>
-      <Link href={`/leaderboard?mock=${mockexam}`}>
-      <button className="w-full bg-black text-white rounded-full mx-auto p-3">
-        See Leaderboard
-      </button>
-      </Link>
     </div>
   );
 }

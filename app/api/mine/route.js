@@ -96,6 +96,7 @@ export async function GET(req) {
         questionText: question.question,
         para : question.para || null,
         image: question.image || null, 
+        type : question.type,
         options: {
           A: questionOptions[0]?.a || "",
           B: questionOptions[0]?.b || "",

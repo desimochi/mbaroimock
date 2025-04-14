@@ -66,7 +66,7 @@ export async function POST(req) {
       );
     }
 
-    if (mock.uploadedquestion > mock.limit) {
+    if (mock.uploadedquestion >= mock.limit) {
       return new Response(
         JSON.stringify({
           message: "Upload limit reached for this mock",

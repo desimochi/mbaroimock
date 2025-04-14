@@ -115,10 +115,10 @@ export default function GraphResult({ data }) {
 
   return (
     <div
-      className="p-4 bg-gray-100 rounded mb-4"
+      className="p-4 bg-white rounded mb-4 border border-gray-300"
       style={{ height: 'auto', width: '100%' }}
     >
-      <h2 className="text-xl mt-2 mb-4 bg-red-800 py-2 text-white rounded-full font-semibold text-center">
+      <h2 className="text-xl mt-2 mb-4 bg-red-50 text-red-800 py-2  rounded-sm font-semibold text-center">
         Topic-Wise Performance
       </h2>
       <div style={{ height: '360px', width: '100%' }}>

@@ -108,11 +108,11 @@ export default async function StudentProfile({ params }) {
                 <span className="text-sm text-black dark:text-gray-400">Exam Given - {response.length}</span>
                 <div className="flex mt-4 md:mt-6 gap-4">
                   <Link href='/update-profile'>
-                <button className="text-gray-900 bg-white border border-gray-800 hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <button className="text-gray-900 bg-white border border-gray-800 hover:bg-black hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Update Profile</button>
               </Link>
                   <Link href="/mocks">
-                    <button className="text-white bg-gray-900 hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-8 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button className="text-white bg-gray-900 hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-sm px-8 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                       Give Mock
                     </button>
                   </Link>
@@ -135,7 +135,7 @@ export default async function StudentProfile({ params }) {
                           <div className="w-full sm:flex justify-between items-center mb-1">
                             <h2 className="text-xl leading-snug font-bold text-black truncate mb-1 sm:mb-0">{mock.examName}</h2>
                             <Link href={`/exam-results?exam=${mock._id}`}>
-                              <button className="bg-red-800 hover:bg-red-700 rounded-full text-white px-4 py-2 rounded">See Result</button>
+                              <button className="bg-red-800 hover:bg-red-700 rounded-sm text-white px-4 py-2">See Result</button>
                             </Link>
                           </div>
                         </div>

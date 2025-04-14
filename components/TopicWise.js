@@ -35,12 +35,12 @@ export default function TopicWise({ data }) {
     });
   
     return (
-      <div className="p-4 mt-5 mb-6 border rounded items-center bg-gray-100">
-  <h1 className="text-xl mt-2 bg-red-800 py-2 text-white rounded-full font-semibold text-center">Subject-Wise Performance</h1>
+      <div className="p-4 mt-5 mb-6 border rounded items-center bg-white">
+  <h1 className="text-xl mt-2 bg-red-50 py-2 text-red-800 rounded-sm font-semibold text-center">Subject-Wise Performance</h1>
   <div className="overflow-x-auto">
-    <table className="border border-gray-800 w-full mt-5">
+    <table className="border border-gray-300 w-full mt-5">
       <thead>
-        <tr className="bg-gray-800 text-white">
+        <tr className="bg-white text-black">
           <th className="border px-4 py-2">Subject</th>
           <th className="border px-4 py-2">Questions</th>
           <th className="border px-4 py-2">Answered</th>
@@ -53,7 +53,7 @@ export default function TopicWise({ data }) {
       <tbody>
         {subjectSummaries.map((summary, index) => (
           <tr key={index} className="text-center">
-            <td className="border px-4 font-bold py-2">{summary.subject}</td>
+            <td className="border px-4  py-2">{summary.subject}</td>
             <td className="border px-4 py-2">{summary.questions}</td>
             <td className="border px-4 py-2">{summary.answered}</td>
             <td className="border px-4 py-2">{summary.unattempted}</td>
@@ -63,7 +63,7 @@ export default function TopicWise({ data }) {
           </tr>
         ))}
       </tbody>
-      <tfoot className="text-center bg-gray-800 text-white">
+      <tfoot className="text-center bg-red-50 text-red-800">
         <tr>
           <td className="border px-4 font-bold py-2">Total</td>
           <td className="border px-4 py-2">{data.length}</td>

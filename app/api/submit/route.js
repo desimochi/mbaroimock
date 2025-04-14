@@ -115,30 +115,45 @@ export async function POST(req) {
     for (const questionIdStr in answers) {
       const userAnswer = answers[questionIdStr];
       const questionId = questionIdStr;
-
+    
       const question = questionMap[questionId];
-      const correctOption = optionMap[questionId];
-
-      if (question && correctOption) {
-        let isCorrect = correctOption.answer === userAnswer;
+      const correctOption = optionMap[questionId]; // might be undefined for TITA
+    
+      if (question) {
+        let isCorrect = false;
         let markAwarded = 0;
-
+        const isTita = question.type === "tita";
+    
         if (userAnswer === '') {
           // Unanswered question
-          isCorrect = ''
+          isCorrect = '';
           markAwarded = 0;
-          marksreceieved+=0
-        } else if (isCorrect) {
-          isCorrect = true
+        } else if (isTita) {
+          // --- TITA Answer Checking ---
+          const correctAnswer = question.solution?.toString().trim().toLowerCase(); // store this in DB
+          const submittedAnswer = userAnswer?.toString().trim().toLowerCase();
+    
+          if (correctAnswer === submittedAnswer) {
+            isCorrect = true;
+            markAwarded = marks;
+            marksreceieved += marks;
+          } else {
+            isCorrect = false;
+            markAwarded = negativemarks;
+            marksreceieved -= negativemarks;
+          }
+        } else if (correctOption && correctOption.answer === userAnswer) {
+          // --- MCQ Correct ---
+          isCorrect = true;
           markAwarded = marks;
-          marksreceieved+=marks
+          marksreceieved += marks;
         } else {
-          // Incorrect answer
-          isCorrect = false
+          // --- MCQ Incorrect ---
+          isCorrect = false;
           markAwarded = negativemarks;
-          marksreceieved-=negativemarks
+          marksreceieved -= negativemarks;
         }
-
+    
         results.push({
           questionId: questionIdStr,
           questionText: question.question,
@@ -146,7 +161,7 @@ export async function POST(req) {
           topics: question.topic,
           solution: question.solution,
           userAnswer,
-          correctAnswer: correctOption.answer,
+          correctAnswer: isTita ? question.answer : correctOption?.answer,
           correct: isCorrect,
           mark: markAwarded,
         });
@@ -157,6 +172,7 @@ export async function POST(req) {
         });
       }
     }
+    
 
     const resultDoc = {
       userId,
