@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import TogglePopoverLogin from "./TogglePopoverLogin";
 import { useUser } from "@/context/UserContext";
+import Image from "next/image";
 
 
 export default function Navbar() {
@@ -18,7 +19,7 @@ export default function Navbar() {
     {/* Logo */}
     <div className="flex items-center">
       <div className="text-red-800 text-2xl font-bold">
-        <Link href="/"><span>MBAROI MOCK</span></Link>
+        <Link href="/"><Image src={"/mba-roi-mock-logo.png"} alt="mbaroi mock logo" height={60} width={150}/></Link>
       </div>
     </div>
 
