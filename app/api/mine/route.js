@@ -58,7 +58,11 @@ export async function GET(req) {
     } else if (mock.examName.toLowerCase().includes("cmat")) {
       collectionName = "cmatquestions";
       optionsname = "cmatoptions";
-    } else if (mock.examName.toLowerCase().includes("gmat")) {
+    } else if (mock.examName.toLowerCase().includes("mat")) {
+      collectionName = "matquestions";
+      optionsname = "matoptions";
+    } 
+    else if (mock.examName.toLowerCase().includes("gmat")) {
       collectionName = "gmatquestions";
       optionsname = "gmatoptions";
     }

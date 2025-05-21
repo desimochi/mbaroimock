@@ -191,12 +191,12 @@ export default  function UploadQuestionForm() {
       ) : (
         <>
           <option value="Language Comprehension">Language Comprehension</option>
-          <option value="Quantitative Techniques and Data Interpretation">
-            Quantitative Techniques and Data Interpretation
+          <option value="Intelligence and Critical Reasoning">
+            Intelligence and Critical Reasoning
           </option>
-          <option value="Logical Reasoning">Logical Reasoning</option>
-          <option value="Innovation & Entrepreneurship">Innovation & Entrepreneurship</option>
-          <option value="General Awareness">General Awareness</option>
+          <option value="Data Analysis and Sufficiency">Data Analysis and Sufficiency</option>
+          <option value="Mathematical Skills">Mathematical Skills </option>
+          <option value="Indian and Global Environment">Indian and Global Environment	</option>
         </>
       )}
 </select>
