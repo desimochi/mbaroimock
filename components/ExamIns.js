@@ -1,7 +1,10 @@
 "use client"
 import React from "react";
 
-const CMATInstructions = ({handleins}) => {
+const CMATInstructions = ({handleins, mock}) => {
+  const marks = mock ==='cmat'? 4 : `${mock==='mat'? 1 : 3}`
+  const negmarks = mock ==='cmat'? 1 : `${mock==='mat'? 0.25 : 1}`
+   const duration = mock ==='cmat'? 180 : 120
   return (
     <div className="h-full mb-4 flex items-center">
             <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg border border-gray-200 mt-10">
@@ -13,7 +16,7 @@ const CMATInstructions = ({handleins}) => {
 
       <ol className="list-decimal list-inside space-y-4 text-gray-700">
         <li>
-          <span className="font-semibold">Test Duration:</span> The total duration of the mock test is <span className="font-semibold">3 hours (180 minutes)</span>. Ensure that you have sufficient uninterrupted time to complete the test.
+          <span className="font-semibold">Test Duration:</span> The total duration of the mock test is <span className="font-semibold">3 hours ({duration})</span>. Ensure that you have sufficient uninterrupted time to complete the test.
         </li>
         <li>
           <span className="font-semibold">Question Format:</span> The test consists of multiple-choice questions (MCQs). Each question has <span className="font-semibold">four options</span>, and only one is correct.
@@ -21,8 +24,8 @@ const CMATInstructions = ({handleins}) => {
         <li>
           <span className="font-semibold">Marking Scheme:</span>
           <ul className="list-disc list-inside ml-6">
-            <li>+4 marks will be awarded for each correct answer.</li>
-            <li>-1 mark will be deducted for every incorrect answer.</li>
+            <li>+{marks} marks will be awarded for each correct answer.</li>
+            <li>-{negmarks} mark will be deducted for every incorrect answer.</li>
             <li>No marks will be deducted for unanswered questions.</li>
           </ul>
         </li>

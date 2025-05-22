@@ -11,6 +11,7 @@ export default function ExamComponent() {
   const [questions, setQuestions] = useState([]);
   const router = useRouter();
   const [mock, setMock] = useState();
+  const [mockName, setMockName] = useState();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [submission, setSubmission] = useState(false)
   const [answers, setAnswers] = useState({});
@@ -49,12 +50,14 @@ export default function ExamComponent() {
         const data = await response.json();
         setQuestions(data.questions);
         setMock(data.mockId);
+        setTimeLeft(data.duration*60 || 180*60)
+        setMockName(data.mock)
 
         if (!hasSavedProgress) {
           setCurrentQuestionIndex(0);
           setAnswers({});
           setMarkedForReview([]);
-          setTimeLeft(180 * 60); // Reset timer to initial value
+          setTimeLeft(data.duration*60); // Reset timer to initial value
         }
 
         setLoading(false);
@@ -135,7 +138,7 @@ export default function ExamComponent() {
     return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   };
   if(instructions){
-      return <CMATInstructions handleins={handleins}/>
+      return <CMATInstructions handleins={handleins} mock={mockName}/>
   }
   
   if (loading) return <div className="flex items-center justify-center h-80">

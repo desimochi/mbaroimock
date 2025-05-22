@@ -49,22 +49,34 @@ export async function GET(req) {
     }
     let collectionName;
     let optionsname;
+    let mockname;
+    let duration;
     if (mock.examName.toLowerCase().includes("xat")) {
       collectionName = "xatquestions";
       optionsname = "xatoptions";
+      mockname="xat"
+      duration="120"
     } else if (mock.examName.toLowerCase().includes("cat")) {
       collectionName = "catquestions";
       optionsname = "catoptions";
+       mockname="cat"
+       duration="120"
     } else if (mock.examName.toLowerCase().includes("cmat")) {
       collectionName = "cmatquestions";
       optionsname = "cmatoptions";
+       mockname="cmat"
+       duration="180"
     } else if (mock.examName.toLowerCase().includes("mat")) {
       collectionName = "matquestions";
       optionsname = "matoptions";
+       mockname="mat"
+       duration="120"
     } 
     else if (mock.examName.toLowerCase().includes("gmat")) {
       collectionName = "gmatquestions";
       optionsname = "gmatoptions";
+       mockname="gmat"
+       duration="120"
     }
     // Fetch questions associated with the mock
     const questions = await db
@@ -111,7 +123,7 @@ export async function GET(req) {
     });
 
     return new Response(
-      JSON.stringify({ mockId, questions: combinedData }),
+      JSON.stringify({ mockId, questions: combinedData, mock:mockname, duration }),
       {
         status: 200,
         headers: { "Content-Type": "application/json" },

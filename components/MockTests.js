@@ -66,25 +66,31 @@ export default function MockTests() {
       <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal leading-tight">Available Mocks to Attempt</h2>
       <hr class="border-red-700 w-1/2 mx-auto mb-12 border-t-2" />
       <div className="flex flex-wrap gap-6 items-center justify-center">
-      {mocks.map((mock) => (
-        <div
-          key={mock._id}
-          className="w-full sm:w-1/4 p-4 border border-gray-400 rounded-[12px] text-black overflow-hidden"
-        >
-          <h5 className="text-lg font-semibold text-center">{formatExamName(mock.examName)}</h5>
-          <div className="border-t border-dotted border-gray-400 my-3"></div>
-          <p className="text-sm text-gray-300 break-words">{mock.description}</p>
-          <div className="flex justify-between">
-          <p className="text-sm text-gray-800 break-words mt-2">
-            <strong>Questions:</strong> {mock.limit} 
-          </p>
-          <p className="text-sm text-gray-800 break-words mt-2">
-            <strong>Duration:</strong> 180 Minutes
-          </p>
-          </div>
-          <Link href ={`\exam?mock=${mock._id}`}><button className="w-full bg-red-700 mt-4 p-2 rounded-full text-white">Start Exam</button></Link>
-        </div>
-      ))}
+      {mocks.map((mock) => {
+  const duration = /cmat/i.test(mock.examName) ? 180 : 120;
+
+  return (
+    <div
+      key={mock._id}
+      className="w-full sm:w-1/4 p-4 border border-gray-400 rounded-[12px] text-black overflow-hidden"
+    >
+      <h5 className="text-lg font-semibold text-center">{formatExamName(mock.examName)}</h5>
+      <div className="border-t border-dotted border-gray-400 my-3"></div>
+      <p className="text-sm text-gray-300 break-words">{mock.description}</p>
+      <div className="flex justify-between">
+        <p className="text-sm text-gray-800 break-words mt-2">
+          <strong>Questions:</strong> {mock.limit}
+        </p>
+        <p className="text-sm text-gray-800 break-words mt-2">
+          <strong>Duration:</strong> {duration} minutes
+        </p>
+      </div>
+      <Link href={`/exam?mock=${mock._id}`}>
+        <button className="w-full bg-red-700 mt-4 p-2 rounded-full text-white">Start Exam</button>
+      </Link>
+    </div>
+  );
+})}
       </div>
     </div>
     </>
