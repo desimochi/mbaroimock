@@ -133,11 +133,11 @@ export default function MockTests({ user }) {
             })
           )}
         </div>
-        {!paid && (
+        {session? !paid && (
           <div className="max-w-xl mx-auto mt-8">
             <PayButton userId={userId} />
           </div>
-        )}
+        ) : <Link href={"/login"}>Unlock @49</Link>}
       </div>
     </>
   );
