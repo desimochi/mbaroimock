@@ -44,7 +44,7 @@ export default function PayButton() {
       onClick={handlePay}
       className="bg-red-500 text-sm text-white px-4 py-2 rounded"
     >
-      Unlock Exam @ ₹49  
+      Unlock Exam@ ₹49  
     </button>
   );
 }
