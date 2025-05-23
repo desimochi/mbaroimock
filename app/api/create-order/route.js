@@ -15,7 +15,7 @@ console.log(userId)
     currency: "INR",
     receipt: "receipt_order_" + Date.now(),
     notes: {
-      userId, // pass userId for webhook to receive it
+      userId, // pass userId for webhook to receive it np
     },
   };
 
