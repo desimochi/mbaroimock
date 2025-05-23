@@ -24,7 +24,7 @@ export default function PayButton() {
     const data = await res.json();
 
     if (!window.Razorpay) {
-      alert("Razorpay SDK not loaded.");
+      alert("Razorpay SDK not loadedd.");
       return;
     }
 
