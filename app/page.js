@@ -6,6 +6,8 @@ import JoinOurTeam from "@/components/JoinOurTeam";
 import MockTests from "@/components/MockTests";
 import Faq from "@/components/FAQ";
 import Features from "@/components/Features";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 export const metadata = {
     title: 'MBAROI Mocks - CAT 2025 Mock Available | Free Mocks',
     description: 'Boost your CAT 2025 prep with free mock tests! Access high-quality CAT mocks, analyze performance, and sharpen your skills for exam success. Start now!',
