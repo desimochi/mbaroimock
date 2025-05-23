@@ -51,7 +51,7 @@ export async function POST(request) {
         subject: row.subject,
         level: row.level,
         type: row.type,
-        mockId: new ObjectId("682f1e155fe80a20b67eeb94"),
+        mockId: new ObjectId("6830775c3f7c3e113b92ea6c"),
         solution:row.solution,
         createdAt: new Date(),
       };
