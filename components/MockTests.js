@@ -124,7 +124,7 @@ export default function MockTests({ user }) {
                     <p className="text-sm mt-2">✔️ By Top MBA Entrance Exam Instructors </p>
                     <p className="text-sm mt-2">✔️ Unlimited Access and Reattempts</p>
                   </div>
-                  {paid && 
+                  {session && 
                     <Link href={`/exam?mock=${mock._id}`}>
                       <button className="w-full bg-red-700 mt-4 p-2 rounded-full text-white">Start Exam</button>
                     </Link>}
@@ -135,7 +135,7 @@ export default function MockTests({ user }) {
         </div>
         {session?  !paid && (
           <div className="max-w-xl mx-auto mt-8">
-            <PayButton userId={userId} />
+            {/* <PayButton userId={userId} /> */}
           </div>
         ) : <div className="max-w-xl mx-auto mt-8"><Link href={"/login"} className="w-full bg-red-700 mt-4 p-2 px-8 rounded-full text-white">Unlock @49</Link></div>}
       </div>

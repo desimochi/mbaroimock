@@ -33,7 +33,7 @@ export default function UsersDetails() {
   if (error) {
     return <p style={{ color: 'red' }}>{error}</p>;
   }
-
+console.log(users)
   return (
     <div className='container mx-auto p-4'>
       <table className='table-auto w-full border-collapse border border-gray-300'>
@@ -43,6 +43,7 @@ export default function UsersDetails() {
             <th className="border border-gray-300 px-4 py-2 text-left">Name</th>
             <th className="border border-gray-300 px-4 py-2 text-left">Email</th>
             <th className="border border-gray-300 px-4 py-2 text-left">Mobile</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Registration Time</th>
           </tr>
         </thead>
         <tbody>
@@ -52,6 +53,9 @@ export default function UsersDetails() {
               <td className="border border-gray-300 px-4 py-2">{user.name}</td>
               <td className="border border-gray-300 px-4 py-2">{user.email}</td>
               <td className="border border-gray-300 px-4 py-2">{user.mobile}</td>
+             <td className="border border-gray-300 px-4 py-2">
+  {new Date(user.created_at).toLocaleString()}
+</td>
             </tr>
           ))}
         </tbody>

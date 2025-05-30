@@ -66,6 +66,13 @@ export default function Register() {
       if (result?.error) {
         throw new Error(result.error);
       }
+      if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-16938791596/IFpoCMOVw88aEKzlhY0_',
+        value: 1.0,
+        currency: 'INR',
+      });
+    }
 
       // Redirect to dashboard/homepage after login
       router.push("/dashboard");
