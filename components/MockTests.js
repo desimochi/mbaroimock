@@ -69,7 +69,7 @@ export default function MockTests({ user }) {
   return (
     <>
       {/* Free Mocks Section */}
-      <div className="container mx-auto mt-24 sm:mt-32 mb-24 border text-white rounded-lg p-8 md:p-12 shadow-lg">
+      {/* <div className="container mx-auto mt-24 sm:mt-32 mb-24 border text-white rounded-lg p-8 md:p-12 shadow-lg">
         <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal">Free Mocks</h2>
         <hr className="border-red-700 w-1/2 mx-auto mb-12 border-t-2" />
         <div className="flex flex-wrap gap-6 items-center justify-center">
@@ -95,17 +95,17 @@ export default function MockTests({ user }) {
             })
           )}
         </div>
-      </div>
+      </div> */}
 
       {/* Paid Mocks Section */}
-      <div className="container mx-auto mt-16 mb-24 border text-white rounded-lg p-8 md:p-12 shadow-lg">
-        <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal">Paid Mocks</h2>
+      <div className="container mx-auto mb-24 border text-white rounded-lg p-8 md:p-12 shadow-lg">
+        <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal">All Mocks</h2>
         <hr className="border-red-700 w-1/2 mx-auto mb-12 border-t-2" />
         <div className="flex flex-wrap gap-6 items-center justify-center">
-          {paidMocks.length === 0 ? (
+          {mocks.length === 0 ? (
             <p className="text-black">No paid mocks available.</p>
           ) : (
-            paidMocks.map(mock => {
+            mocks.map(mock => {
               const duration = /cmat/i.test(mock.examName) ? 180 : 120;
               return (
                 <div key={mock._id} className="w-full sm:w-1/4 p-4 border border-gray-400 rounded-[12px] text-black overflow-hidden">
