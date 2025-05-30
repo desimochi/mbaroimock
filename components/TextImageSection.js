@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 export default function TextImageSection() {
   const session  = use(getServerSession(authOptions))
-  console.log(session)
     return (
         <div className="max-w-7xl mx-auto">
            <section className="relative flex items-center justify-between px-6 py-2 ">
@@ -27,9 +26,19 @@ export default function TextImageSection() {
         <Link href={"/mocks"} className="bg-[#d43232] hover:bg-[#a82828] text-white px-6 py-3 rounded-sm font-medium transition">
           Attempt Mock
         </Link>
-        <Link href={`/profiles/students/${session.user.id}`} className="bg-red-50 border border-red-700 text-red-700 px-6 py-3 rounded-sm font-medium transition">
-          Go to Profile
-        </Link>
+        {session?.user?.id ? (
+  <Link
+    href={`/profiles/students/${session.user.id}`}
+    className="bg-red-50 border border-red-700 text-red-700 px-6 py-3 rounded-sm font-medium transition"
+  >
+    Go to Profile
+  </Link>
+) : <Link
+    href={`/login`}
+    className="bg-red-50 border border-red-700 text-red-700 px-6 py-3 rounded-sm font-medium transition"
+  >
+    Login
+  </Link>}
         </div>
       </div>
 
