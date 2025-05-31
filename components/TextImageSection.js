@@ -9,9 +9,9 @@ export default function TextImageSection() {
   const session  = use(getServerSession(authOptions))
     return (
         <div className="max-w-7xl mx-auto ">
-           <section className="relative flex items-center justify-between px-6 py-2 ">
+           <section className="relative flex justify-between px-6 py-2 ">
       {/* Left Content */}
-      <div className="max-w-xl z-10">
+      <div className="max-w-xl z-10 mt-16">
         <p className="text-red-700 text-sm mb-4 relativew-fit px-4 rounded-full">
           <span className="inline-block font-medium">Most Trusted MBA Website</span>
         </p>
@@ -49,13 +49,16 @@ export default function TextImageSection() {
             src="/hero-image-girl.png" // use exported girl image
             alt="Hero Student"
             width={700}
-            height={700}
+            height={500}
             className="rounded-xl object-cover z-10"
           />
         </div>
 
       </div>
     </section>
+    <Link href={"https://taxila.in/"} target="_blank" rel="noreferrer noopener" className="p-4">
+    <Image src={"/taxila-ad.jpg"} alt="taxila ad" height={200} width={1200} className="mb-4" />
+    </Link>
       </div>
     );
   }

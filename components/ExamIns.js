@@ -1,13 +1,16 @@
 "use client"
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 const CMATInstructions = ({handleins, mock}) => {
   const marks = mock ==='cmat'? 4 : `${mock==='mat'? 1 : 3}`
   const negmarks = mock ==='cmat'? 1 : `${mock==='mat'? 0.25 : 1}`
    const duration = mock ==='cmat'? 180 : 120
   return (
-    <div className="h-full mb-4 flex items-center">
-            <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg border border-gray-200 mt-10">
+    <div className="h-full mb-4 max-w-7xl mx-auto">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
+            <div className="w-full sm:w-3/4 p-6 bg-white shadow-md rounded-lg border border-gray-200 mt-10">
       <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">Mock Test Instructions</h1>
       <hr class="border-red-700 w-1/2 mx-auto mb-6 border-t-2" />
       <p className="text-gray-600 mb-3">
@@ -54,6 +57,12 @@ const CMATInstructions = ({handleins, mock}) => {
           Start Test
         </button>
       </div>
+    </div>
+    <div className="w-full sm:w-1/4">
+    <Link href={"https://taxila.in/"} target="_blank" rel="noreferrer noopener" className="p-4">
+          <Image src={"/taxila-ad2.jpg"} alt="taxila ad" height={200} width={600} className="mb-4" />
+    </Link>
+    </div>
     </div>
     </div>
   );
