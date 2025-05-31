@@ -41,8 +41,8 @@ export default function MockTests({ user }) {
     if (session) fetchPaid();
     fetchMocks().finally(() => setLoading(false));
   }, [session, userId]);
-
   function formatExamName(name) {
+
     return name
       .replace(/([a-z])([A-Z0-9])/g, '$1 $2')
       .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
@@ -98,8 +98,8 @@ export default function MockTests({ user }) {
       </div> */}
 
       {/* Paid Mocks Section */}
-      <div className="container mx-auto mb-24 border text-white rounded-lg p-8 md:p-12 shadow-lg">
-        <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal">All Mocks</h2>
+      <div className="container mx-auto mb-24 border text-white rounded-lg p-8 md:p-12 shadow-lg dark:text-white">
+        <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal dark:text-white">All Mocks</h2>
         <hr className="border-red-700 w-1/2 mx-auto mb-12 border-t-2" />
         <div className="flex flex-wrap gap-6 items-center justify-center">
           {mocks.length === 0 ? (
@@ -108,7 +108,7 @@ export default function MockTests({ user }) {
             mocks.map(mock => {
               const duration = /cmat/i.test(mock.examName) ? 180 : 120;
               return (
-                <div key={mock._id} className="w-full sm:w-1/4 p-4 border border-gray-400 rounded-[12px] text-black overflow-hidden">
+                <div key={mock._id} className="w-full sm:w-1/4 p-4 border border-gray-400 rounded-[12px] text-black dark:text-white overflow-hidden">
                   <h5 className="text-lg font-semibold text-center">{formatExamName(mock.examName)}</h5>
                   <div className="border-t border-dotted border-gray-400 my-3"></div>
                   <p className="text-sm text-gray-700">{mock.description}</p>
@@ -137,7 +137,7 @@ export default function MockTests({ user }) {
           <div className="max-w-xl mx-auto mt-8">
             {/* <PayButton userId={userId} /> */}
           </div>
-        ) : <div className="max-w-xl mx-auto mt-8"><Link href={"/login"} className="w-full bg-red-700 mt-4 p-2 px-8 rounded-full text-white">Unlock @49</Link></div>}
+        ) : <div className="max-w-xl mx-auto mt-8"><Link href={"/login"} className="w-full bg-red-700 mt-4 p-2 px-8 rounded-full text-white">Login to Attempt</Link></div>}
       </div>
     </>
   );
