@@ -60,7 +60,7 @@ const CMATInstructions = ({handleins, mock}) => {
     </div>
     <div className="w-full sm:w-1/4">
     <Link href={"https://taxila.in/"} target="_blank" rel="noreferrer noopener" className="p-4">
-          <Image src={"/taxila-ad2.jpg"} alt="taxila ad" height={200} width={600} className="mb-4" />
+          <Image src={"/new-ad-side.jpg"} alt="taxila ad" height={100} width={200} className="mb-4 mt-4" />
     </Link>
     </div>
     </div>

@@ -6,7 +6,7 @@ export async function GET() {
     const client = await clientPromise;
     const db = client.db('sample_mflix');
     
-    const users = await db.collection('users').find().toArray();
+    const users = await db.collection('users').find().sort({ _id: -1 }).toArray();
     
     return new Response(JSON.stringify(users), {
         status: 200,
