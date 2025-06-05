@@ -89,7 +89,6 @@ export async function GET(req) {
       }
     }
   },
-  // Optionally remove duplicates from mockNames if a user attempted same mock multiple times
   {
     $addFields: {
       mockNames: { $setUnion: "$mockNames" }

@@ -25,11 +25,29 @@ export default function UsersDetails() {
   const goToPage = (newPage) => {
     router.push(`?page=${newPage}`);
   };
+  const flattenUsers = (users) =>
+  users.map((user) => ({
+    ID: user._id,
+    Name: user.name,
+    Email: user.email,
+    mobile : user.mobile,
+    ExamCount : user.examCount,
+    Exam: Array.isArray(user.mockNames) ? user.mockNames.join(", ") : "",
+    // Add more fields and flattening logic as needed
+  }));
   async function handledownload() {
     try {
       const res = await fetch(`/api/admin?page=${page}&limit=${totalCount}`)
       const response = await res.json()
-      const worksheet = XLSX.utils.json_to_sheet(response.users);
+      const newResponse = response.users.map((item)=>{
+        if(item.mockNames.length > 0){
+          return item
+        } else {
+          return {...item, examCount:0}
+        }
+      })
+      const flatUsers = flattenUsers(newResponse);
+      const worksheet = XLSX.utils.json_to_sheet(flatUsers);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "users");
 
