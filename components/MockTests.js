@@ -18,7 +18,21 @@ export default function MockTests({ user }) {
         const response = await fetch("/api/fetchmocks");
         if (!response.ok) throw new Error("Failed to fetch mock test details");
         const data = await response.json();
-        setMocks(data);
+        const sorted = [...data].sort((a, b) => {
+  const getPrefix = (name) => name.match(/^(CAT|CMAT|MAT)/i)?.[1] || "ZZZ";
+  const getNumber = (name) => parseInt(name.replace(/\D+/g, '')) || 0;
+
+  const prefixA = getPrefix(a.examName);
+  const prefixB = getPrefix(b.examName);
+
+  if (prefixA === prefixB) {
+    return getNumber(a.examName) - getNumber(b.examName);
+  }
+
+  return prefixA.localeCompare(prefixB);
+});
+        setMocks(sorted);
+        console.log(data)
       } catch (err) {
         console.error(err);
         setError(err.message);

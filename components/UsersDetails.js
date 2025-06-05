@@ -1,6 +1,8 @@
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation";
+import * as XLSX from 'xlsx';
+import FileSaver from "file-saver";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -11,7 +13,7 @@ export default function UsersDetails() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const page = parseInt(searchParams.get("page") || "1");
-
+   let filename = "mockdata.xlsx"
   const { data, error, isLoading } = useSWR(`/api/admin?page=${page}&limit=${PAGE_SIZE}`, fetcher);
 
   if (isLoading) return <p>Loading...</p>;
@@ -23,13 +25,32 @@ export default function UsersDetails() {
   const goToPage = (newPage) => {
     router.push(`?page=${newPage}`);
   };
+  async function handledownload() {
+    try {
+      const res = await fetch(`/api/admin?page=${page}&limit=${totalCount}`)
+      const response = await res.json()
+      const worksheet = XLSX.utils.json_to_sheet(response.users);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "users");
+
+      const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+      const file = new Blob([excelBuffer], { type: "application/octet-stream" });
+      saveAs(file, filename);
+    } catch (error) {
+      console.error("Not Receieved")
+    }
+  }
 
   return (
     <div className='container mx-auto p-4'>
-      <div  className="flex justify-between my-3 items-center">
+      <div  className="flex justify-between my-3 items-center gap-4">
         <p>Total Registered Student - {totalCount}</p>
-        <div className="mt-4 flex justify-center gap-4 items-center">
-        <button
+        <div className="mt-4 flex justify-between gap-4 items-center">
+          <div>
+            <button className="bg-red-700 px-6 py-2 text-white rounded-sm" onClick={handledownload}>Download Excel</button>
+          </div>
+        <div className="flex gap-2 items-center">
+          <button
           onClick={() => goToPage(page - 1)}
           disabled={page <= 1}
           className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
@@ -46,6 +67,7 @@ export default function UsersDetails() {
         >
           Next
         </button>
+        </div>
       </div>
       </div>
       <table className='table-auto w-full border-collapse border border-gray-300'>

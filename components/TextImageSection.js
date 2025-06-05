@@ -11,7 +11,7 @@ export default function TextImageSection() {
         <div className="max-w-7xl mx-auto ">
            <section className="relative flex justify-between px-6 py-2 ">
       {/* Left Content */}
-      <div className="max-w-xl z-10 mt-16">
+      <div className="max-w-3xl z-10 mt-16">
         <p className="text-red-700 text-sm mb-4 relativew-fit px-4 rounded-full">
           <span className="inline-block font-medium">Most Trusted MBA Website</span>
         </p>
@@ -48,8 +48,8 @@ export default function TextImageSection() {
           <Image
             src="/hero-image-girl.png" // use exported girl image
             alt="Hero Student"
-            width={700}
-            height={500}
+            width={400}
+            height={400}
             className="rounded-xl object-cover z-10"
           />
         </div>
