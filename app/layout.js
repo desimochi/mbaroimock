@@ -39,14 +39,26 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession(authOptions);
-
+   let session = null;
   let user = null;
+
+  try {
+    session = await getServerSession(authOptions);
+  } catch (error) {
+    console.error("NextAuth session error:", error);
+    // You can optionally clear cookies here or log out user forcibly
+  }
+
   if (session) {
-    const client = await clientPromise;
-    const db = client.db("sample_mflix");
-    user = await db.collection("users").findOne({ email: session.user.email });
-    user = convertToPlainObject(user); // Convert the user to a plain object
+    try {
+      const client = await clientPromise;
+      const db = client.db("sample_mflix");
+      user = await db.collection("users").findOne({ email: session.user.email });
+      user = convertToPlainObject(user);
+    } catch (dbError) {
+      console.error("DB error:", dbError);
+      // fallback, user stays null
+    }
   }
 
   return (

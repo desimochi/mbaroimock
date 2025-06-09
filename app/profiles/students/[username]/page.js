@@ -9,74 +9,25 @@ import Head from "next/head";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 
-export async function generateMetadata({ params }) {
-  const { username } = await params;
 
-  if (!ObjectId.isValid(username)) {
-    return {
-      title: "Invalid User",
-      description: "The user ID provided is invalid.",
-    };
-  }
-
-  try {
-    const client = await clientPromise;
-    const db = client.db("sample_mflix");
-    const userId = new ObjectId(username);
-    const student = await db.collection("users").findOne({ _id: userId });
-
-    if (!student) {
-      return {
-        title: "User Not Found",
-        description: "No user found with the provided ID.",
-      };
-    }
-
-    return {
-      title: `${student.name}'s Profile - Exam History`,
-      description: `View the exam history and performance of ${student.name}. See the number of exams taken and access detailed results.`,
-      openGraph: {
-        title: `${student.name}'s Profile - Exam History`,
-        description: `View the exam history and performance of ${student.name}. See the number of exams taken and access detailed results.`,
-        url: `https://mock.mbaroi.in/profile/${username}`,
-        images: [
-          {
-            url: "/default-meta-image.png",
-            width: 1200,
-            height: 630,
-            alt: "Default Meta Image",
-          },
-        ],
-      },
-    };
-  } catch (error) {
-    console.error("Error in generateMetadata:", error);
-    return {
-      title: "Error",
-      description: "An error occurred while loading the user profile.",
-    };
-  }
-}
 
 
 
 export default async function StudentProfile({ params }) {
   const { username } = await params;
-
+  const session = await getServerSession(authOptions);
+  if (!session) {
+      redirect("/login");
+    }
   try {
     const client = await clientPromise;
     const db = client.db("sample_mflix");
 
-
-    
-
     // Convert username to ObjectId
     const userId = new ObjectId(username);
 
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      redirect("/login");
-    }
+  
+    
 
     // Fetch the student details
     const student = await db.collection("users").findOne({ _id: userId });

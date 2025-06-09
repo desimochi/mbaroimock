@@ -26,7 +26,7 @@ export async function POST(request) {
     const buffer = Buffer.from(arrayBuffer);
 
     // 2. Upload file to Vercel Blob Storage (optional)
-    const blob = await put(filename, buffer, { access: 'public' });
+    const blob = await put(filename, buffer, { access: 'public', addRandomSuffix: true});
 
     // 3. Parse Excel file from buffer using XLSX
     const workbook = XLSX.read(buffer, { type: 'buffer' });
@@ -37,8 +37,8 @@ export async function POST(request) {
     // 4. Insert parsed data into MongoDB
     const client = await clientPromise;
     const db = client.db('sample_mflix'); // change your DB name here
-    const questionsCollection = db.collection('matquestions');
-    const optionsCollection = db.collection('matoptions');
+    const questionsCollection = db.collection('catquestions');
+    const optionsCollection = db.collection('catoptions');
 
     let insertedCount = 0;
 
@@ -51,7 +51,7 @@ export async function POST(request) {
         subject: row.subject,
         level: row.level,
         type: row.type,
-        mockId: new ObjectId("6830775c3f7c3e113b92ea6c"),
+        mockId: new ObjectId("684682828743a5b24d6a915e"),
         solution:row.solution,
         createdAt: new Date(),
       };
@@ -68,7 +68,7 @@ export async function POST(request) {
       };
 
       await optionsCollection.insertOne(optionsDoc);
-      insertedCount++;
+      insertedCount+=1;
     }
 
     return NextResponse.json({

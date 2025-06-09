@@ -19,7 +19,7 @@ const CMATInstructions = ({handleins, mock}) => {
 
       <ol className="list-decimal list-inside space-y-4 text-gray-700">
         <li>
-          <span className="font-semibold">Test Duration:</span> The total duration of the mock test is <span className="font-semibold">3 hours ({duration})</span>. Ensure that you have sufficient uninterrupted time to complete the test.
+          <span className="font-semibold">Test Duration:</span> The total duration of the mock test is <span className="font-semibold">{duration/60} hours ({duration})</span>. Ensure that you have sufficient uninterrupted time to complete the test.
         </li>
         <li>
           <span className="font-semibold">Question Format:</span> The test consists of multiple-choice questions (MCQs). Each question has <span className="font-semibold">four options</span>, and only one is correct.

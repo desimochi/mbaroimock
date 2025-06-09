@@ -202,7 +202,7 @@ export default function ExamComponent() {
               </h2>
               {currentQuestion.image &&   <img src={currentQuestion.image} alt="Fetched from backend" className="w-64 h-auto" />}
               <div className="mt-4">
-              {currentQuestion.type !=="tita" && (
+              {currentQuestion.type.toLowerCase() !=="tita" && (
   Object.entries(currentQuestion.options).map(([key, value]) => (
     <div key={key} className="mb-2">
       <label>
@@ -221,7 +221,7 @@ export default function ExamComponent() {
     </div>
   ))
 )}
-                {currentQuestion.type === 'tita' && (
+                {currentQuestion.type.toLowerCase() === 'tita' && (
   <textarea
     name={`question-${currentQuestion.questionId}`}
     className="w-full mt-2 border border-gray-300 rounded px-3 py-2"
