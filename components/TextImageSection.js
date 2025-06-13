@@ -58,7 +58,7 @@ export default function TextImageSection() {
     </section>
     <Link href={"https://taxila.in/"} target="_blank" rel="noreferrer noopener" className="p-4">
     <Image src={"/new-ad-hor.jpg"} alt="taxila ad" height={200} width={1200} className="mb-4 hidden sm:block" />
-    <Image src={"/adnew.jpg"} alt="taxila ad" height={300} width={1200} className="mb-4 block sm:hidden" />
+    <Image src={"/new-ad-image-taxila.jpg"} alt="taxila ad" height={300} width={1200} className="mb-4 block sm:hidden" />
     </Link>
       </div>
     );
