@@ -1,13 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
-import Head from "next/head";
+
 import TextImageSection from "@/components/TextImageSection";
-import JoinOurTeam from "@/components/JoinOurTeam";
 import MockTests from "@/components/MockTests";
 import Faq from "@/components/FAQ";
 import Features from "@/components/Features";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+ // Other meta tags
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export const metadata = {
     title: 'MBAROI Mocks - CAT 2025 Mock Available | Free Mocks',
     description: 'Boost your CAT 2025 prep with free mock tests! Access high-quality CAT mocks, analyze performance, and sharpen your skills for exam success. Start now!',
@@ -20,7 +21,7 @@ export const metadata = {
       siteName: 'MBAROIMOCK',
       images: [
         {
-          url: '/student.jpg',
+          url: 'https://mock.mbaroi.in/student.jpg',
           width: 1200,
           height: 630,
           alt: 'mbaroimock',
@@ -35,14 +36,10 @@ export const metadata = {
       card: 'summary_large_image',
       title: 'MBAROI Mocks - CAT 2025 Mock Available | Free Mocks',
       description: 'Boost your CAT 2025 prep with free mock tests! Access high-quality CAT mocks, analyze performance, and sharpen your skills for exam success. Start now!.',
-      images: ['/student.jpg'],
+      images: ['https://mock.mbaroi.in/student.jpg'],
     },
   
-    // Other meta tags
-    viewport: {
-      width: 'device-width',
-      initialScale: 1,
-    },
+   
     robots: {
       index: true, // Allow search engines to index
       follow: true, // Allow search engines to follow links

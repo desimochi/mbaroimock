@@ -28,7 +28,6 @@ export default function MockTests({ user }) {
   return acc;
 }, {});
         setMocks(segregated);
-        console.log(data)
       } catch (err) {
         console.error(err);
         setError(err.message);
