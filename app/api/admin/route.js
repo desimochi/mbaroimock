@@ -3,14 +3,14 @@ import clientPromise from "@/lib/mongodb";
 export async function GET(req) {
   const allowedOrigins = [
     "http://localhost:3000",
-    "https://mbaroifront.vercel.app"
+    "https://mbaroinew.vercel.app"
   ];
 
   const origin = req.headers.get("origin");
   const isAllowedOrigin = allowedOrigins.includes(origin);
 
   const corsHeaders = {
-    "Access-Control-Allow-Origin": isAllowedOrigin ? origin : "https://mbaroifront.vercel.app", 
+    "Access-Control-Allow-Origin": isAllowedOrigin ? origin :  "https://mbaroinew.vercel.app", 
     "Access-Control-Allow-Methods": "GET,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
   };
