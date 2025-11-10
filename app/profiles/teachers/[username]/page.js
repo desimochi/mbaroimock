@@ -1,3 +1,4 @@
+
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -31,7 +32,7 @@ export default async function TeacherProfile({ params }) {
 
   return (
     <>
-  <div className="container mx-auto h-screen">
+  <div className="container mx-auto h-fit">
   <div className="flex justify-between items-center py-4 px-8 shadow-sm gap-4">
   <div className=" bg-red-900 rounded mb-8 w-1/4">
   <div className="w-full bg-white border border-gray-200 rounded shadow dark:bg-gray-800 dark:border-gray-700">
@@ -58,30 +59,30 @@ export default async function TeacherProfile({ params }) {
   </div>
   <div className="rounded mb-8 w-3/4">
   {mocks.length > 0 ? (
-        <ul className="list-disc ml-6">
+        <div className="grid grid-cols-3 gap-2  ml-6">
           {mocks.map((mock) => (
             
             <div className="w-full mx-auto bg-white shadow-lg rounded-lg mb-2" key={mock._id}>
             <div className="px-6 py-5">
-              <div className="flex items-start">
+              <div className="flex items-center">
                 {/* Icon */}
                 <svg className="fill-current flex-shrink-0 mr-5" width="30" height="30" viewBox="0 0 30 30">
-                  <path className="text-red-300" d="m16 14.883 14-7L14.447.106a1 1 0 0 0-.895 0L0 6.883l16 8Z" />
+                  <path className="text-red-100" d="m16 14.883 14-7L14.447.106a1 1 0 0 0-.895 0L0 6.883l16 8Z" />
                   <path className="text-red-200" d="M16 14.619v15l13.447-6.724A.998.998 0 0 0 30 22V7.619l-14 7Z" />
-                  <path className="text-red-500" d="m16 14.619-16-8V21c0 .379.214.725.553.895L16 29.619v-15Z" />
+                  <path className="text-red-400" d="m16 14.619-16-8V21c0 .379.214.725.553.895L16 29.619v-15Z" />
                 </svg>
         
                 {/* Card content */}
-                <div className="flex-grow truncate">
+                <div className="flex flex-col truncate">
                   {/* Card header */}
-                  <div className="w-full sm:flex justify-between items-center mb-1">
+                  <div className="w-full justify-between items-center mb-1">
                     {/* Title */}
                     <h2 className="text-xl leading-snug font-bold text-black truncate mb-1 sm:mb-0">
                       {mock.examName}
                     </h2>
                     
                     {/* Like and comment buttons */}
-                    <Link href={`/upload-questions/?exam=${mock.examName}`} ><button className="bg-red-700 text-white  hover:bg-red-800 hover:text-white font-semibold py-2 px-4 rounded">
+                    <Link href={`/upload-questions/?exam=${mock.examName}`} ><button className="bg-red-100 text-red-700  hover:bg-red-800 hover:text-white border border-gray-200 shadow py-2 px-4 rounded">
                       Upload Question
                     </button></Link>
                   </div>
@@ -89,13 +90,7 @@ export default async function TeacherProfile({ params }) {
                   {/* Card body */}
                   <div className="flex items-end justify-between whitespace-normal">
                     {/* Paragraph */}
-                    <div className="max-w-md text-gray-900">
-                      <p className="mb-2">
-                        {new Date(
-                          mock.createdAt.$date ? mock.createdAt.$date.$numberLong : mock.createdAt
-                        ).toLocaleString()}
-                      </p>
-                    </div>
+            
                     {/* More link */}
                   </div>
                 </div>
@@ -103,7 +98,7 @@ export default async function TeacherProfile({ params }) {
             </div>
           </div>
           ))}
-        </ul>
+        </div>
       ) : (
         <p>No mocks associated with this teacher.</p>
       )}

@@ -67,7 +67,7 @@ export default async function RootLayout({ children }) {
       <GoogleTagManager gtmId="GTM-KR3VCLK9" />
       <GoogleAnalytics gaId="G-F5NWW5896Q" />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
       >
          <UserProvider initialUser={user}>
         <Providers>

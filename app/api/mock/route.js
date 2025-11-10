@@ -58,7 +58,7 @@ export async function POST(req) {
       userId: token.id,
       limit,
       uploadedQuestions: 0, // Add user ID from the token
-      createdAt: 'new Date()',
+      createdAt: new Date(),
     });
 
     return new Response(
