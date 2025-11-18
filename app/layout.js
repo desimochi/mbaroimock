@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import localFont from "next/font/local";
+import { Geist, Mulish } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/NavBar";
 import Providers from "@/components/Providers";
@@ -9,6 +10,7 @@ import { UserProvider } from "@/context/UserContext";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import clientPromise from "@/lib/mongodb";
+import BottomTicker2 from "@/components/Ticker";
 
 const convertToPlainObject = (user) => {
   if (user) {
@@ -20,15 +22,15 @@ const convertToPlainObject = (user) => {
   return user;
 };
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+const geistSans = Geist({
   variable: "--font-geist-sans",
-  weight: "100 900",
+  subsets: ["latin"],
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const mulish = Mulish({
+  variable: "--font-mulish",
+  subsets: ["latin"],
+  display: 'swap',
 });
 
 export const metadata = {
@@ -67,11 +69,12 @@ export default async function RootLayout({ children }) {
       <GoogleTagManager gtmId="GTM-KR3VCLK9" />
       <GoogleAnalytics gaId="G-F5NWW5896Q" />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
+        className={`${geistSans.variable} ${mulish.className} antialiased font-sans`}
       >
          <UserProvider initialUser={user}>
         <Providers>
         <Navbar/>
+        {!session && <BottomTicker2 />}
         <main>
         {children}
       </main>

@@ -1,16 +1,14 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import PayButton from "./PayButton";
-import { useSession } from "next-auth/react";
+'use client';
+import React, { useState, useRef, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Clock, BookOpen } from 'lucide-react';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
-export default function MockTests({ user }) {
-  const { data: session, status } = useSession();
-  const userId = session?.user?.id;
-  const [mocks, setMocks] = useState([]);
+const MockTests = () => {
+  const { data: session } = useSession();
+  const [mocks, setMocks] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [paid, setPaid] = useState(false);
 
   useEffect(() => {
     const fetchMocks = async () => {
@@ -18,140 +16,187 @@ export default function MockTests({ user }) {
         const response = await fetch("/api/fetchmocks");
         if (!response.ok) throw new Error("Failed to fetch mock test details");
         const data = await response.json();
-       const segregated = data.reduce((acc, item) => {
-  const match = item.examName.match(/^(CAT|MAT|CMAT)/i);
-  const key = match ? match[1].toUpperCase() : "Other";
 
-  if (!acc[key]) acc[key] = [];
-  acc[key].push(item);
+        // Group mocks
+        const segregated = data.reduce((acc, item) => {
+          const match = item.examName.match(/^(CAT|MAT|CMAT)/i);
+          const key = match ? match[1].toUpperCase() : "Other";
+          if (!acc[key]) acc[key] = [];
+          acc[key].push(item);
+          return acc;
+        }, {});
 
-  return acc;
-}, {});
-        setMocks(segregated);
+        // Ordered categories
+        const order = ["CAT", "MAT", "CMAT"];
+        const ordered = {};
+
+        order.forEach(key => {
+          if (segregated[key]) ordered[key] = segregated[key];
+        });
+
+        Object.keys(segregated).forEach(key => {
+          if (!order.includes(key)) ordered[key] = segregated[key];
+        });
+
+        setMocks(ordered);
       } catch (err) {
-        console.error(err);
         setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
 
-    const fetchPaid = async () => {
-      if (!userId) return;
-      try {
-        const response = await fetch(`/api/paid?userID=${userId}`);
-        if (!response.ok) throw new Error("Failed to fetch payment status");
-        const data = await response.json();
-        setPaid(data?.hasPaid || false);
-      } catch (err) {
-        console.error(err);
-        setError(err.message);
-      }
+    fetchMocks();
+  }, []);
+
+  const getDuration = (examName) => (/cmat/i.test(examName) ? 180 : 120);
+
+  // ROW COMPONENT
+  const ScrollableRow = ({ title, mocksData }) => {
+    const scrollRef = useRef(null);
+    const [showLeft, setShowLeft] = useState(false);
+    const [showRight, setShowRight] = useState(true);
+
+    const checkScroll = () => {
+      const el = scrollRef.current;
+      if (!el) return;
+
+      setShowLeft(el.scrollLeft > 0);
+      setShowRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
     };
 
-    if (session) fetchPaid();
-    fetchMocks().finally(() => setLoading(false));
-  }, [session, userId]);
-  function formatExamName(name) {
+    const scroll = (direction) => {
+      scrollRef.current?.scrollBy({
+        left: direction === "left" ? -400 : 400,
+        behavior: "smooth",
+      });
+      setTimeout(checkScroll, 300);
+    };
 
-    return name
-      .replace(/([a-z])([A-Z0-9])/g, '$1 $2')
-      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
-  }
+    useEffect(() => {
+      checkScroll();
+    }, [mocksData]);
 
-  if (loading) {
     return (
-      <div aria-label="Loading" className="container flex items-center justify-center mx-auto mt-24 sm:mt-32 mb-24 border text-white rounded-lg p-8 md:p-12 shadow-lg">
-        <svg className="h-20 w-20 animate-spin stroke-red-800" viewBox="0 0 256 256">
-          <circle cx="128" cy="128" r="96" strokeWidth="16" stroke="currentColor" fill="none" />
-        </svg>
-        <span className="ml-4 text-3xl font-medium text-black">Loading Mocks...</span>
-      </div>
-    );
-  }
+      <div className="mb-10 max-w-7xl mx-auto">
 
-  if (error) {
-    return <p className="text-red-500 text-center mt-10">Error: {error}</p>;
-  }
+        <h2 className="text-2xl font-extrabold text-zinc-950 mb-4 px-12">{title} Mocks</h2>
 
-  // const freeMocks = mocks.filter(mock => mock.isFree);
-  // const paidMocks = mocks.filter(mock => !mock.isFree);
+        <div className="relative group">
 
-  return (
-    <>
-      {/* Free Mocks Section */}
-      {/* <div className="container mx-auto mt-24 sm:mt-32 mb-24 border text-white rounded-lg p-8 md:p-12 shadow-lg">
-        <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal">Free Mocks</h2>
-        <hr className="border-red-700 w-1/2 mx-auto mb-12 border-t-2" />
-        <div className="flex flex-wrap gap-6 items-center justify-center">
-          {freeMocks.length === 0 ? (
-            <p className="text-black">No free mocks available.</p>
-          ) : (
-            freeMocks.map(mock => {
-              const duration = /cmat/i.test(mock.examName) ? 180 : 120;
+          {/* LEFT CLICK BUTTON ONLY */}
+          {showLeft && (
+            <button
+              onClick={() => scroll("left")}
+              className="absolute left-0 top-0 bottom-0 z-10 w-12 
+              bg-gradient-to-r from-white/80 to-transparent
+              flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <ChevronLeft className="w-8 h-8 text-black" />
+            </button>
+          )}
+
+          {/* SCROLL AREA */}
+          <div
+            ref={scrollRef}
+            onScroll={checkScroll}
+            className="flex overflow-x-auto gap-3 px-12 pb-4 scrollbar-hide scroll-smooth"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {mocksData.map((mock) => {
+              const duration = getDuration(mock.examName);
+
               return (
-                <div key={mock._id} className="w-full sm:w-1/4 p-4 border border-gray-400 rounded-[12px] text-black overflow-hidden">
-                  <h5 className="text-lg font-semibold text-center">{formatExamName(mock.examName)}</h5>
-                  <div className="border-t border-dotted border-gray-400 my-3"></div>
-                  <p className="text-sm text-gray-700">{mock.description}</p>
-                  <div className="flex justify-between">
-                    <p className="text-sm mt-2"><strong>Questions:</strong> {mock.limit}</p>
-                    <p className="text-sm mt-2"><strong>Duration:</strong> {duration} mins</p>
+                <div key={mock._id} className="group flex-none w-80 relative border border-red-500 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+
+                  {/* IMPORTANT: NO TRANSFORM, NO SCALE, NO TRANSLATE */}
+                  <div className="
+                      bg-gradient-to-br from-gray-50 to-gray-40 
+                      rounded-lg overflow-hidden
+                      transition-colors duration-300
+                      hover:bg-white
+                    "
+                  >
+                    <div className="h-40 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center relative">
+                      <BookOpen className="w-16 h-16 text-white/20 absolute" />
+                      <h3 className="text-xl font-bold text-white z-10 px-4">
+                        {mock.examName}
+                      </h3>
+                    </div>
+
+                    <div className="p-4">
+                      <div className="flex items-center gap-2 text-gray-800 text-sm mb-3">
+                        <Clock className="w-4 h-4" />
+                        <span>{duration} mins</span>
+                        <span className="mx-2">•</span>
+                        <span>{mock.limit} Questions</span>
+                      </div>
+
+                      {mock.description && (
+                        <p className="text-gray-800 text-xs mb-3 line-clamp-2">
+                          {mock.description}
+                        </p>
+                      )}
+
+                      <div className="space-y-1 mb-3">
+                        <p className="text-xs text-gray-800">✔ Updated Syllabus</p>
+                        <p className="text-xs text-gray-800">✔ Exam Pattern</p>
+                        <p className="text-xs text-gray-800">✔ Unlimited Attempts</p>
+                      </div>
+
+                      {session ? (
+                        <Link href={`/exam?mock=${mock._id}`}>
+                          <button className="w-full bg-red-700 text-white py-2 rounded-full font-semibold">
+                            Start Test
+                          </button>
+                        </Link>
+                      ) : (
+                        <Link href="/login" >
+                          <button className="w-full bg-red-700 text-white py-2 rounded-full font-semibold">
+                            Login to Attempt
+                          </button>
+                        </Link>
+                      )}
+
+                    </div>
                   </div>
-                  <Link href={`/exam?mock=${mock._id}`}>
-                    <button className="w-full bg-red-700 mt-4 p-2 rounded-full text-white">Start Exam</button>
-                  </Link>
+
                 </div>
               );
-            })
-          )}
-        </div>
-      </div> */}
-
-      {/* Paid Mocks Section */}
-      <div className="container mx-auto mb-24 border text-white rounded-lg p-8 md:p-12 shadow-lg dark:text-white">
-        <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal dark:text-white">All Mocks</h2>
-        <hr className="border-red-700 w-1/2 mx-auto mb-12 border-t-2" />
-        <div className="flex flex-col gap-10">
-  {Object.entries(mocks).map(([examType, mocksInGroup]) => (
-    <div key={examType}>
-      <h2 className="text-2xl font-bold text-center text-red-700 mb-6">{examType} Mocks</h2>
-      <div className="flex flex-wrap gap-6 items-center justify-center">
-        {mocksInGroup.map(mock => {
-          const duration = /cmat/i.test(mock.examName) ? 180 : 120;
-          return (
-            <div key={mock._id} className="w-full sm:w-1/4 p-4 border border-gray-400 rounded-[12px] text-black dark:text-white overflow-hidden">
-              <h5 className="text-lg font-semibold text-center">{formatExamName(mock.examName)}</h5>
-              <div className="border-t border-dotted border-gray-400 my-3"></div>
-              <p className="text-sm text-gray-700">{mock.description}</p>
-              <div className="flex justify-between">
-                <p className="text-sm mt-2"><strong>Questions:</strong> {mock.limit}</p>
-                <p className="text-sm mt-2"><strong>Duration:</strong> {duration} mins</p>
-              </div>
-              <div className="flex flex-col md:flex-col sm:flex-row justify-between">
-                <p className="text-sm mt-2">✔️ Updated Mocks As Per Syllabus</p>
-                <p className="text-sm mt-2">✔️ As per Updated Exam Pattern</p>
-              </div>
-              <div className="flex flex-col md:flex-col sm:flex-row justify-between">
-                <p className="text-sm mt-2">✔️ By Top MBA Entrance Exam Instructors</p>
-                <p className="text-sm mt-2">✔️ Unlimited Access and Reattempts</p>
-              </div>
-              {session && 
-                <Link href={`/exam?mock=${mock._id}`}>
-                  <button className="w-full bg-red-700 mt-4 p-2 rounded-full text-white">Start Exam</button>
-                </Link>}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  ))}
-</div>
-
-        {session?  !paid && (
-          <div className="max-w-xl mx-auto mt-8">
-            {/* <PayButton userId={userId} /> */}
+            })}
           </div>
-        ) : <div className="max-w-xl mx-auto mt-8"><Link href={"/login"} className="w-full bg-red-700 mt-4 p-2 px-8 rounded-full text-white">Login to Attempt</Link></div>}
+
+          {/* RIGHT CLICK BUTTON ONLY */}
+          {showRight && (
+            <button
+              onClick={() => scroll("right")}
+              className="absolute right-0 top-0 bottom-0 z-10 w-12 
+              bg-gradient-to-l from-white/80 to-transparent 
+              flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <ChevronRight className="w-8 h-8 text-black" />
+            </button>
+          )}
+
+        </div>
       </div>
-    </>
+    );
+  };
+
+  return (
+    <div className="min-h-screen  py-12 ">
+
+      <div className="mb-8 px-12 text-center">
+        <h1 className="text-4xl font-extrabold text-zinc-950 mb-2">MBA Mock Exam Series</h1>
+        <p className="text-gray-600 text-lg">Practice with comprehensive mock exams</p>
+      </div>
+
+      {Object.entries(mocks).map(([examType, mocksInGroup]) =>
+        <ScrollableRow key={examType} title={examType} mocksData={mocksInGroup} />
+      )}
+
+    </div>
   );
-}
+};
+
+export default MockTests;

@@ -19,7 +19,7 @@ export default function Navbar() {
     {/* Logo */}
     <div className="flex items-center">
       <div className="text-red-600 text-4xl font-bold font-sans">
-        <Link href="/" ><span className="text-[#5a037c]">MBA</span>R.O.I</Link>
+        <Link href="https://mbaroi.in/" ><span className="text-[#5a037c]">MBA</span>R.O.I</Link>
       </div>
     </div>
 
