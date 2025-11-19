@@ -84,12 +84,13 @@ export default function RegisterCom() {
   };
 
   return (
-    <div className=" flex flex-col items-center justify-center bg-white rounded-md w-[520px]">
+    <div className=" flex flex-col items-center justify-center bg-white rounded-xl w-[420px]">
       <div className="w-full p-8 bg-white border shadow-md rounded-md">
-        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+        <h2 className="text-xl font-bold mb-4 text-center">Register For MBA Mock Exam Series</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+        <form onSubmit={handleSubmit} >
+          <div className="grid grid-cols-2 gap-3">
+          <div className="">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
             </label>
@@ -103,7 +104,7 @@ export default function RegisterCom() {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
             </label>
@@ -145,17 +146,18 @@ export default function RegisterCom() {
               required
             />
           </div>
+          </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-red-800 text-white rounded-full font-medium py-2 px-4 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="w-full bg-violet-800 text-white rounded-full font-medium py-2 px-4 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             {loading ? "Registering..." : "Register"}
           </button>
         </form>
         <p className="mt-4 text-sm text-center">
           Already have an account?{" "}
-          <a href="/login" className="text-red-500 hover:underline">
+          <a href="/login" className="text-violet-500 hover:underline">
             Log in here
           </a>
         </p>

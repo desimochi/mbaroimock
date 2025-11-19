@@ -18,7 +18,7 @@ export default function Navbar() {
   <div className="max-w-7xl mx-auto flex justify-between items-center">
     {/* Logo */}
     <div className="flex items-center">
-      <div className="text-red-600 text-4xl font-bold font-sans">
+      <div className="text-red-600 text-3xl font-bold font-sans">
         <Link href="https://mbaroi.in/" ><span className="text-[#5a037c]">MBA</span>R.O.I</Link>
       </div>
     </div>

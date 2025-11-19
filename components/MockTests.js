@@ -80,7 +80,7 @@ const MockTests = () => {
     return (
       <div className="mb-10 max-w-7xl mx-auto">
 
-        <h2 className="text-2xl font-extrabold text-zinc-950 mb-4 px-12">{title} Mocks</h2>
+        <h2 className="text-2xl font-extrabold text-zinc-950 mb-4 px-12">{title} Mock Exam Series</h2>
 
         <div className="relative group">
 
@@ -107,61 +107,72 @@ const MockTests = () => {
               const duration = getDuration(mock.examName);
 
               return (
-                <div key={mock._id} className="group flex-none w-80 relative border border-red-500 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+                <div key={mock._id} className="group flex-none w-80 relative border border-gray-200 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
 
-                  {/* IMPORTANT: NO TRANSFORM, NO SCALE, NO TRANSLATE */}
-                  <div className="
-                      bg-gradient-to-br from-gray-50 to-gray-40 
-                      rounded-lg overflow-hidden
-                      transition-colors duration-300
-                      hover:bg-white
-                    "
-                  >
-                    <div className="h-40 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center relative">
-                      <BookOpen className="w-16 h-16 text-white/20 absolute" />
-                      <h3 className="text-xl font-bold text-white z-10 px-4">
-                        {mock.examName}
-                      </h3>
-                    </div>
+  {/* TOP-LEFT MBAROI LABEL */}
+ 
 
-                    <div className="p-4">
-                      <div className="flex items-center gap-2 text-gray-800 text-sm mb-3">
-                        <Clock className="w-4 h-4" />
-                        <span>{duration} mins</span>
-                        <span className="mx-2">•</span>
-                        <span>{mock.limit} Questions</span>
-                      </div>
+  {/* NO TRANSFORMS, NO SCALE */}
+  <div className="
+    bg-gradient-to-br from-gray-50 to-gray-40
+    rounded-lg overflow-hidden
+    transition-colors duration-300
+    hover:bg-white
+  ">
 
-                      {mock.description && (
-                        <p className="text-gray-800 text-xs mb-3 line-clamp-2">
-                          {mock.description}
-                        </p>
-                      )}
+    {/* HEADER WITH ICON + NAME */}
+    <div className="h-40 bg-white flex flex-col items-center justify-center relative border-b">
+       <div className="absolute top-2 left-2 border border-gray-300 text-red-800 text-[10px] font-bold px-2 py-[2px] rounded">
+    <span className="text-[#5a037c]">MBA</span>R.O.I
+  </div>
+      {/* ICON (Use your mock.icon or replace with BookOpen) */}
+      <div className="w-14 h-14 flex items-center justify-center bg-violet-100 rounded-full shadow-inner mb-2">
+        <BookOpen className="w-7 h-7 text-violet-700" />
+      </div>
 
-                      <div className="space-y-1 mb-3">
-                        <p className="text-xs text-gray-800">✔ Updated Syllabus</p>
-                        <p className="text-xs text-gray-800">✔ Exam Pattern</p>
-                        <p className="text-xs text-gray-800">✔ Unlimited Attempts</p>
-                      </div>
+      <h3 className="text-lg font-bold text-gray-900 px-4 text-center">
+        {mock.examName}
+      </h3>
+    </div>
 
-                      {session ? (
-                        <Link href={`/exam?mock=${mock._id}`}>
-                          <button className="w-full bg-red-700 text-white py-2 rounded-full font-semibold">
-                            Start Test
-                          </button>
-                        </Link>
-                      ) : (
-                        <Link href="/login" >
-                          <button className="w-full bg-red-700 text-white py-2 rounded-full font-semibold">
-                            Login to Attempt
-                          </button>
-                        </Link>
-                      )}
+    <div className="p-4">
+      <div className="flex items-center gap-2 text-gray-800 text-sm mb-3">
+        <Clock className="w-4 h-4" />
+        <span>{duration} mins</span>
+        <span className="mx-2">•</span>
+        <span>{mock.limit} Questions</span>
+      </div>
 
-                    </div>
-                  </div>
+      {mock.description && (
+        <p className="text-gray-700 text-xs mb-3 line-clamp-2">
+          {mock.description}
+        </p>
+      )}
 
-                </div>
+      <div className="space-y-1 mb-3">
+        <p className="text-xs text-gray-800">✔ Updated Syllabus</p>
+        <p className="text-xs text-gray-800">✔ Exam Pattern</p>
+        <p className="text-xs text-gray-800">✔ Unlimited Attempts</p>
+      </div>
+
+      {session ? (
+        <Link href={`/exam?mock=${mock._id}`}>
+          <button className="w-full bg-violet-700 text-white py-2 rounded-full font-semibold">
+            Start Test
+          </button>
+        </Link>
+      ) : (
+        <Link href="/login">
+          <button className="w-full bg-violet-700 text-white py-2 rounded-full font-semibold">
+            Login to Attempt
+          </button>
+        </Link>
+      )}
+    </div>
+
+  </div>
+</div>
+
               );
             })}
           </div>

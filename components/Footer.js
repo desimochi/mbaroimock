@@ -3,7 +3,7 @@ import Link from "next/link";
 // components/Footer.js
 export default function Footer() {
     return (
-      <footer className="bg-red-800 text-gray-100 py-8 px-24">
+      <footer className="bg-violet-800 text-gray-100 py-8 px-24">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
           {/* Logo or Brand Name */}
           <div className="mb-4 md:mb-0">

@@ -4,7 +4,7 @@ export default function Features() {
   return (
     <div className="container mx-auto bg-white mt-8">
       <h2 className="text-black mb-8 text-center text-3xl sm:text-2xl lg:text-5xl font-normal leading-tight">Why MBAROI Mocks?</h2>
-      <hr class="border-red-700 w-1/2 mx-auto mb-12 border-t-2" />
+      <hr class="border-violet-700 w-1/2 mx-auto mb-12 border-t-2" />
       <div className="flex flex-col md:flex-row md:justify-between gap-6 p-2">
         {/* Card 1 */}
         <div className="bg-white border p-8 border-gray-300 rounded-xl shadow-md mb-8 md:mb-6 w-full sm:w-7/12">

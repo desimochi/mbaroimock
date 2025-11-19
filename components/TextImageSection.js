@@ -24,14 +24,14 @@ export default function TextImageSection() {
       </div>
 
       {/* OVERLAY (optional – you can remove if not needed) */}
-      <div className="absolute inset-0 bg-red-700/60 -z-0"></div>
+      <div className="absolute inset-0 bg-violet-700/50 -z-0"></div>
 
       {/* HERO SECTION CONTENT */}
-      <section className="relative flex flex-col md:flex-row justify-between px-6 py-16 max-w-7xl mx-auto items-center">
+      <section className="relative flex flex-col md:flex-row justify-center px-6 py-16 max-w-7xl mx-auto items-center">
 
         {/* LEFT CONTENT */}
         <div className="max-w-3xl z-10 md:w-1/2 text-white">
-          <p className="text-red-700 text-sm mb-4 px-4 rounded-full font-medium bg-white inline-block">
+          <p className="text-violet-700 text-sm mb-4 px-4 rounded-full font-medium bg-white inline-block">
             Most Trusted MBA Website
           </p>
 
@@ -48,15 +48,15 @@ export default function TextImageSection() {
           <div className="flex gap-2">
             <Link
               href={"/mocks"}
-              className="bg-[#d43232] hover:bg-[#a82828] text-white px-6 py-3 rounded-sm font-medium transition"
+              className="bg-black hover:bg-black text-white px-6 py-3 rounded-md font-medium transition"
             >
-              Attempt Mock
+              Start Mock Exam
             </Link>
 
             {session?.user?.id ? (
               <Link
                 href={`/profiles/students/${session.user.id}`}
-                className="bg-white/20 border border-white text-white px-6 py-3 rounded-sm font-medium transition backdrop-blur"
+                className="bg-white/20 border border-white text-white px-6 py-3 rounded-md font-medium transition backdrop-blur"
               >
                 Go to Profile
               </Link>

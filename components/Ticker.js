@@ -21,7 +21,7 @@ export default function BottomTicker2() {
       onClick={() => router.push("/register")}
       className={`
         fixed top-15 left-0 w-full
-        bg-gradient-to-r from-red-600 to-red-800
+        bg-gradient-to-r from-violet-600 to-violet-800
         text-white py-2 cursor-pointer
         overflow-hidden shadow-lg 
         z-[9999]
