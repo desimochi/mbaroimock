@@ -18,7 +18,7 @@ export default function Navbar() {
   <div className="max-w-7xl mx-auto flex justify-between items-center">
     {/* Logo */}
     <div className="flex items-center">
-      <div className="text-red-600 text-3xl font-bold font-sans">
+      <Link href={'https://mbaroi.in'} className="text-red-600 text-3xl font-bold font-sans">
       <Image 
   src="/new.jpeg"
   alt="logo"
@@ -27,7 +27,7 @@ export default function Navbar() {
   priority
 />
 
-      </div>
+      </Link>
     </div>
 
     {/* Hamburger Menu (Visible on Mobile) */}
