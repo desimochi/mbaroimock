@@ -14,12 +14,19 @@ export default function Navbar() {
 
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
-    <nav className="bg-white shadow-sm py-4 px-8 sticky top-0 z-50">
+    <nav className="bg-white shadow-sm py-2 px-8 sticky top-0 z-50">
   <div className="max-w-7xl mx-auto flex justify-between items-center">
     {/* Logo */}
     <div className="flex items-center">
       <div className="text-red-600 text-3xl font-bold font-sans">
-        <Link href="https://mbaroi.in/" ><span className="text-[#5a037c]">MBA</span>R.O.I</Link>
+      <Image 
+  src="/new.jpeg"
+  alt="logo"
+  width={140}
+  height={100}
+  priority
+/>
+
       </div>
     </div>
 

@@ -2,8 +2,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Clock, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-
 const MockTests = () => {
   const { data: session } = useSession();
   const [mocks, setMocks] = useState({});
@@ -123,7 +123,13 @@ const MockTests = () => {
     {/* HEADER WITH ICON + NAME */}
     <div className="h-40 bg-white flex flex-col items-center justify-center relative border-b">
        <div className="absolute top-2 left-2 border border-gray-300 text-red-800 text-[10px] font-bold px-2 py-[2px] rounded">
-    <span className="text-[#5a037c]">MBA</span>R.O.I
+     <Image 
+      src="/new.jpeg"
+      alt="logo"
+      width={60}
+      height={20}
+      priority
+    />
   </div>
       {/* ICON (Use your mock.icon or replace with BookOpen) */}
       <div className="w-14 h-14 flex items-center justify-center bg-violet-100 rounded-full shadow-inner mb-2">
